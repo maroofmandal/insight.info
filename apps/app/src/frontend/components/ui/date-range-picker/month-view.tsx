@@ -11,6 +11,7 @@ interface Props {
 
 export const MonthView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeDisabledTooltip }: Props) => {
   const datePicker = useDatePickerContext();
+  const today = new Date();
 
   return (
     <DatePicker.Table w="100%">
@@ -19,6 +20,8 @@ export const MonthView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeD
           <DatePicker.TableRow key={id} _notLast={{ '& > td': { pb: '3px' } }}>
             {months.map((month) => {
               const monthStart = new Date(datePicker.focusedValue.year, month.value - 1, 1);
+              const isCurrentMonth =
+                datePicker.focusedValue.year === today.getFullYear() && month.value === today.getMonth() + 1;
               const disabledTooltip =
                 Boolean(month.disabled) && isBefore(monthStart, minDate)
                   ? minRangeDisabledTooltip
@@ -38,7 +41,12 @@ export const MonthView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeD
                           fontSize="0.95rem"
                           fontWeight="medium"
                           cursor="pointer"
+                          data-current={isCurrentMonth ? '' : undefined}
                           css={{
+                            '&[data-current]': {
+                              border: '1px solid',
+                              borderColor: 'gray.muted',
+                            },
                             '&[data-disabled]': {
                               opacity: 0.3,
                               cursor: 'not-allowed',

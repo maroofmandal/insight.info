@@ -11,6 +11,7 @@ interface Props {
 
 export const YearView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeDisabledTooltip }: Props) => {
   const datePicker = useDatePickerContext();
+  const currentYear = new Date().getFullYear();
 
   return (
     <DatePicker.Table w="100%">
@@ -19,6 +20,7 @@ export const YearView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeDi
           <DatePicker.TableRow key={id} _notLast={{ '& > td': { pb: '3px' } }}>
             {years.map((year) => {
               const yearStart = new Date(year.value, 0, 1);
+              const isCurrentYear = year.value === currentYear;
               const disabledTooltip =
                 Boolean(year.disabled) && isBefore(yearStart, minDate)
                   ? minRangeDisabledTooltip
@@ -38,7 +40,12 @@ export const YearView = ({ minDate, maxDate, minRangeDisabledTooltip, maxRangeDi
                           fontSize="0.95rem"
                           fontWeight="medium"
                           cursor="pointer"
+                          data-current={isCurrentYear ? '' : undefined}
                           css={{
+                            '&[data-current]': {
+                              border: '1px solid',
+                              borderColor: 'gray.muted',
+                            },
                             '&[data-disabled]': {
                               opacity: 0.3,
                               cursor: 'not-allowed',
