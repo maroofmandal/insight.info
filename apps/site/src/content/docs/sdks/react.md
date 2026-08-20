@@ -9,4 +9,14 @@ order: 43
 npm install @vemetric/react
 ```
 
-Wrap the application with the compatible provider and pass the project token and Insight hub configuration. Track actions from handlers after the action succeeds, rather than when a button merely receives a click.
+Load the compatible component once near the application root:
+
+```tsx
+<VemetricScript
+  token="YOUR_PROJECT_TOKEN"
+  host="https://insight.info"
+  scriptUrl="https://insight.info/insight.min.js"
+/>
+```
+
+Track actions from handlers after the action succeeds, rather than when a button merely receives a click.

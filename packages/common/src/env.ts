@@ -36,7 +36,9 @@ export function getInsightUrl(subDomain?: SubDomain): string {
     process.env.INSIGHT_SINGLE_ORIGIN === 'true' ||
     (process.env.INSIGHT_SINGLE_ORIGIN !== 'false' && !baseDomain.includes('localhost'));
   const subDomainPrefix =
-    subDomain && !(singleOrigin && (subDomain === 'app' || subDomain === 'backend')) ? `${subDomain}.` : '';
+    subDomain && !(singleOrigin && (subDomain === 'app' || subDomain === 'backend' || subDomain === 'hub'))
+      ? `${subDomain}.`
+      : '';
   return `${protocol}://${subDomainPrefix}${baseDomain}`;
 }
 
@@ -45,6 +47,14 @@ export const getVemetricUrl = getInsightUrl;
 
 export function getInsightToken(): string | undefined {
   return process.env.INSIGHT_TOKEN ?? process.env.VEMETRIC_TOKEN;
+}
+
+export function getInternalHubUrl(): string {
+  return (
+    process.env.INSIGHT_HUB_INTERNAL_URL ||
+    process.env.VEMETRIC_HUB_INTERNAL_URL ||
+    'http://localhost:4004'
+  ).replace(/\/$/, '');
 }
 
 export function getFaviconApiUrl(): string {

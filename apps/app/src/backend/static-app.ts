@@ -45,6 +45,8 @@ export function createStaticApp() {
     '/pwa-512x512.png',
     '/maskable-icon-512x512.png',
     '/manifest.webmanifest',
+    '/insight.min.js',
+    '/insight.min.js.LICENSE.txt',
     '/robots.txt',
     '/sitemap-index.xml',
     '/sitemap-0.xml',

@@ -3,9 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { PUBLIC_PRICING } from '@vemetric/common/pricing';
 
 const integrations = [
-  ['HTML', '<script src="https://cdn.jsdelivr.net/npm/@vemetric/web@latest/dist/vemetric.min.js"></script>'],
-  ['JavaScript', "import { Vemetric } from '@vemetric/web';"],
-  ['React', "import { VemetricProvider } from '@vemetric/react';"],
+  ['HTML', '<script src="https://insight.info/insight.min.js" data-token="YOUR_PROJECT_TOKEN" data-host="https://insight.info" defer></script>'],
+  ['JavaScript', "vemetric.init({ token, host: 'https://insight.info', scriptUrl: 'https://insight.info/insight.min.js' });"],
+  ['React', '<VemetricScript token={token} host="https://insight.info" scriptUrl="https://insight.info/insight.min.js" />'],
   ['Astro', "<script>window.vemetric?.trackEvent('page_view')</script>"],
 ];
 

@@ -9,7 +9,7 @@ RUN bun run --cwd packages/database db:generate
 
 ARG INSIGHT_SITE_URL=https://insight.info
 ARG INSIGHT_APP_URL=https://insight.info
-ARG INSIGHT_HUB_URL=https://insight.info/hub
+ARG INSIGHT_HUB_URL=https://insight.info
 ARG INSIGHT_SINGLE_ORIGIN=true
 ARG INSIGHT_TOPO_URL=https://insight.info/topo.json
 ARG INSIGHT_SOURCE_URL=https://github.com/maroofmandal/insight.info

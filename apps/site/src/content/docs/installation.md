@@ -12,13 +12,13 @@ Create a project in Insight.info, copy its project token, and choose the guide f
 ```html
 <script
   defer
-  src="https://cdn.jsdelivr.net/npm/@vemetric/web@latest/dist/vemetric.min.js"
+  src="https://insight.info/insight.min.js"
   data-token="YOUR_PROJECT_TOKEN"
-  data-api-url="https://hub.insight.info"
+  data-host="https://insight.info"
 ></script>
 ```
 
-Keep the event hub configurable in self-hosted deployments. After loading a page, open the project dashboard and confirm that the page view appears.
+The script and event requests stay on the Insight.info origin; no CDN or hub subdomain is required. After loading a page, open the project dashboard and confirm that the page view appears.
 
 ## Next steps
 

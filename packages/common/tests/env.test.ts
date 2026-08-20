@@ -1,5 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { getBaseDomain, getFaviconApiUrl, getInsightToken, getInsightUrl, getSourceUrl } from '../src/env';
+import {
+  getBaseDomain,
+  getFaviconApiUrl,
+  getInsightToken,
+  getInsightUrl,
+  getInternalHubUrl,
+  getSourceUrl,
+} from '../src/env';
 
 const keys = [
   'INSIGHT_BASE_DOMAIN',
@@ -11,6 +18,8 @@ const keys = [
   'VEMETRIC_APP_URL',
   'INSIGHT_HUB_URL',
   'VEMETRIC_HUB_URL',
+  'INSIGHT_HUB_INTERNAL_URL',
+  'VEMETRIC_HUB_INTERNAL_URL',
   'INSIGHT_SINGLE_ORIGIN',
   'INSIGHT_TOKEN',
   'VEMETRIC_TOKEN',
@@ -57,12 +66,19 @@ describe('Insight configuration aliases', () => {
     expect(getSourceUrl()).toBe('https://github.com/example/source');
   });
 
-  it('derives single-origin production app URLs and a configurable hub subdomain', () => {
+  it('derives one clean production origin for the site, app, backend and hub', () => {
     process.env.INSIGHT_BASE_DOMAIN = 'insight.info';
 
     expect(getInsightUrl()).toBe('https://insight.info');
     expect(getInsightUrl('app')).toBe('https://insight.info');
     expect(getInsightUrl('backend')).toBe('https://insight.info');
-    expect(getInsightUrl('hub')).toBe('https://hub.insight.info');
+    expect(getInsightUrl('hub')).toBe('https://insight.info');
+  });
+
+  it('keeps the private hub target separate from the public clean origin', () => {
+    process.env.INSIGHT_HUB_INTERNAL_URL = 'http://hub:4004/';
+    process.env.VEMETRIC_HUB_INTERNAL_URL = 'http://legacy-hub:4004';
+
+    expect(getInternalHubUrl()).toBe('http://hub:4004');
   });
 });

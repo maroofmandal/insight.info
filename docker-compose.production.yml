@@ -6,7 +6,7 @@ services:
       args:
         INSIGHT_SITE_URL: https://insight.info
         INSIGHT_APP_URL: https://insight.info
-        INSIGHT_HUB_URL: https://insight.info/hub
+        INSIGHT_HUB_URL: https://insight.info
         INSIGHT_SINGLE_ORIGIN: 'true'
         INSIGHT_TOPO_URL: https://insight.info/topo.json
         INSIGHT_SOURCE_URL: https://github.com/maroofmandal/insight.info
@@ -21,6 +21,7 @@ services:
       CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
       CLICKHOUSE_DB: vemetric
       REDIS_URL: redis://redis:6379
+      INSIGHT_HUB_INTERNAL_URL: http://hub:4004
     ports:
       - 127.0.0.1:3015:4000
     depends_on:

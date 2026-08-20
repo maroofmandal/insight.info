@@ -11,7 +11,7 @@ Insight.info is a distinct product fork built from the AGPL-licensed Vemetric pr
 
 ## Which SDK should I install?
 
-Use the published Vemetric-compatible SDK for your platform and configure its API or hub URL as `https://hub.insight.info` when required.
+Use the published Vemetric-compatible SDK for your platform and configure its host as `https://insight.info`. Browser packages should load `https://insight.info/insight.min.js` instead of the upstream CDN.
 
 ## Does a missing public timespan redirect?
 

@@ -19,6 +19,7 @@ export INSIGHT_BASE_DOMAIN="${INSIGHT_BASE_DOMAIN:-localhost:${APP_PORT}}"
 export INSIGHT_SITE_URL="${INSIGHT_SITE_URL:-http://localhost:${APP_PORT}}"
 export INSIGHT_APP_URL="${INSIGHT_APP_URL:-http://localhost:${APP_PORT}}"
 export INSIGHT_HUB_URL="${INSIGHT_HUB_URL:-http://localhost:${APP_PORT}}"
+export INSIGHT_HUB_INTERNAL_URL="${INSIGHT_HUB_INTERNAL_URL:-http://localhost:4004}"
 export INSIGHT_SINGLE_ORIGIN="${INSIGHT_SINGLE_ORIGIN:-true}"
 export INSIGHT_TOPO_URL="${INSIGHT_TOPO_URL:-http://localhost:${APP_PORT}/topo.json}"
 

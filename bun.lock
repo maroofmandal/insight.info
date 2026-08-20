@@ -192,6 +192,7 @@
       },
       "devDependencies": {
         "@astrojs/check": "^0.9.4",
+        "@vemetric/web": "0.6.1",
         "typescript": "^5.7.3",
       },
     },
@@ -1519,6 +1520,8 @@
     "@vemetric/queues": ["@vemetric/queues@workspace:packages/queues"],
 
     "@vemetric/react": ["@vemetric/react@0.6.1", "", { "peerDependencies": { "react": "^18 || ^19" }, "optionalPeers": ["react"] }, "sha512-BNI4S3dWdlfSMHPIYef220P4yP/kTz64/N/k8uzMCZYIlZmCl31WuTOXnjvpbKh7lU0m6wFA2fmqX1ri/Kd8Uw=="],
+
+    "@vemetric/web": ["@vemetric/web@0.6.1", "", {}, "sha512-AZ/hIhMcDGvr1zV7uTJaRoZgXzfKXKhDrdIXFsojhKMguziItGWvIT4+LbZzV2lt7ZrVjnY6nxHmyyD/D5Xm2w=="],
 
     "@visulima/boxen": ["@visulima/boxen@2.0.10", "", { "os": [ "linux", "win32", "darwin", ] }, "sha512-ljghUzl32eUxIixARh8HBBJ2SXz2mJoD7C7Tl9/AEerN/PNihq1PMkzX/QPvMYOXpKrwoPt8ISNOc2EUacX5Wg=="],
 

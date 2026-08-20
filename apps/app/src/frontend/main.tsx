@@ -63,6 +63,7 @@ createRoot(document.getElementById('root')!).render(
     <ClientProviders>
       <VemetricScript
         host={getHubUrl()}
+        scriptUrl="/insight.min.js"
         token={import.meta.env.VITE_INSIGHT_TOKEN || import.meta.env.INSIGHT_TOKEN || import.meta.env.VITE_VEMETRIC_TOKEN || import.meta.env.VEMETRIC_TOKEN}
         maskPaths={[
           '/p/*',

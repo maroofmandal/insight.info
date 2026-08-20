@@ -30,13 +30,13 @@ The local defaults are:
 
 - Marketing site: `http://insight.localhost:4050`
 - Application and backend: `http://app.insight.localhost:4050`
-- Event hub: `http://hub.insight.localhost:4050`
+- Event ingestion: `http://insight.localhost:4050`
 
-Production is designed to serve the marketing site, documentation and analytics application from `https://insight.info`; event ingestion remains configurable and defaults to `https://hub.insight.info`.
+Production serves the marketing site, application, first-party SDK and event ingestion from `https://insight.info`. The browser SDK posts to the clean root endpoints (`/e`, `/i`, `/u`, `/r` and `/l`), while the private hub service remains isolated behind the application proxy.
 
 ## SDK compatibility
 
-Published package names such as `@vemetric/web`, `@vemetric/react` and `@vemetric/node` remain unchanged. Point compatible clients at the Insight event hub where the SDK exposes a host or API URL setting. See the in-repository documentation under `apps/site/src/content/docs`.
+Published package names such as `@vemetric/web`, `@vemetric/react` and `@vemetric/node` remain unchanged. Configure compatible clients with `host: 'https://insight.info'` and use the first-party script at `https://insight.info/insight.min.js`. See the in-repository documentation under `apps/site/src/content/docs`.
 
 ## Commands
 

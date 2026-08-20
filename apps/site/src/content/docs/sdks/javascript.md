@@ -10,8 +10,12 @@ npm install @vemetric/web
 ```
 
 ```ts
-import { Vemetric } from '@vemetric/web';
+import { vemetric } from '@vemetric/web';
 
-Vemetric.init({ token: 'YOUR_PROJECT_TOKEN', apiUrl: 'https://hub.insight.info' });
-Vemetric.trackEvent('application_opened');
+vemetric.init({
+  token: 'YOUR_PROJECT_TOKEN',
+  host: 'https://insight.info',
+  scriptUrl: 'https://insight.info/insight.min.js',
+});
+vemetric.trackEvent('application_opened');
 ```
