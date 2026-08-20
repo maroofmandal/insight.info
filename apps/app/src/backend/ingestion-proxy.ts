@@ -1,13 +1,11 @@
 import { getInternalHubUrl } from '@vemetric/common/env';
-import { Hono } from 'hono';
+import type { Hono } from 'hono';
 
 export const INGESTION_PATHS = ['/e', '/i', '/u', '/r', '/l'] as const;
 
-export function createIngestionProxyApp() {
-  const ingestion = new Hono();
-
+export function registerIngestionProxyRoutes(app: Hono) {
   for (const path of INGESTION_PATHS) {
-    ingestion.all(path, async (c) => {
+    app.all(path, async (c) => {
       const requestUrl = new URL(c.req.url);
       const targetUrl = `${getInternalHubUrl()}${requestUrl.pathname}${requestUrl.search}`;
       const headers = new Headers(c.req.raw.headers);
@@ -28,6 +26,4 @@ export function createIngestionProxyApp() {
       }
     });
   }
-
-  return ingestion;
 }

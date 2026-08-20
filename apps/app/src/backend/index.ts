@@ -3,7 +3,7 @@ import { clickhouseClient } from 'clickhouse';
 import { Hono } from 'hono';
 import { API_DOCS_URL, createPublicApi } from './api';
 import { createBackendApp } from './backend-app';
-import { createIngestionProxyApp } from './ingestion-proxy';
+import { registerIngestionProxyRoutes } from './ingestion-proxy';
 import { createStaticApp } from './static-app';
 import { logger } from './utils/backend-logger';
 import { isMemoryReportEnabled, memoryTelemetryMiddleware, startMemoryReportSchedule } from './utils/memory-report';
@@ -22,7 +22,7 @@ if (isMemoryReportEnabled()) {
   app.use('*', memoryTelemetryMiddleware);
 }
 
-app.route('/', createIngestionProxyApp());
+registerIngestionProxyRoutes(app);
 
 const backendApp = createBackendApp();
 app.route('/_api', backendApp);

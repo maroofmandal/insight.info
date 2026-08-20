@@ -1,5 +1,13 @@
+import { Hono } from 'hono';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createIngestionProxyApp } from './ingestion-proxy';
+import { registerIngestionProxyRoutes } from './ingestion-proxy';
+
+function createTestApp() {
+  const app = new Hono();
+  registerIngestionProxyRoutes(app);
+  app.get('/login', (c) => c.text('SPA fallback'));
+  return app;
+}
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -21,7 +29,7 @@ describe('single-origin ingestion proxy', () => {
       }),
     );
 
-    const response = await createIngestionProxyApp().request('https://insight.info/e?source=test', {
+    const response = await createTestApp().request('https://insight.info/e?source=test', {
       method: 'POST',
       headers: { 'content-type': 'application/json', token: 'public-token' },
       body: JSON.stringify({ name: 'smoke-test' }),
@@ -33,8 +41,9 @@ describe('single-origin ingestion proxy', () => {
     expect(forwardedBody).toBe(JSON.stringify({ name: 'smoke-test' }));
   });
 
-  it('does not proxy unrelated clean paths', async () => {
-    const response = await createIngestionProxyApp().request('https://insight.info/pricing', { method: 'POST' });
-    expect(response.status).toBe(404);
+  it('lets unrelated paths continue to the parent application', async () => {
+    const response = await createTestApp().request('https://insight.info/login');
+    expect(response.status).toBe(200);
+    expect(await response.text()).toBe('SPA fallback');
   });
 });
