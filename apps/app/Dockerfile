@@ -2,17 +2,11 @@ FROM oven/bun:1.3.11-slim AS base
 RUN apt-get update && apt-get install -y --no-install-recommends openssl wget && rm -rf /var/lib/apt/lists/*
 WORKDIR /usr/src/app
 
-FROM base AS pruner
-RUN bun add -g turbo@2.6.1
+FROM base AS build
 COPY . .
-RUN bun turbo prune app --docker --out-dir out
-
-FROM base AS install
-COPY --from=pruner /usr/src/app/out/json/ .
 RUN bun install --ignore-scripts --frozen-lockfile
+RUN bun run --cwd packages/database db:generate
 
-FROM install AS build
-COPY --from=pruner /usr/src/app/out/full/ .
 ARG INSIGHT_SITE_URL=https://insight.info
 ARG INSIGHT_APP_URL=https://insight.info
 ARG INSIGHT_HUB_URL=https://insight.info/hub
@@ -25,22 +19,12 @@ ENV INSIGHT_SITE_URL=$INSIGHT_SITE_URL \
     INSIGHT_SINGLE_ORIGIN=$INSIGHT_SINGLE_ORIGIN \
     INSIGHT_TOPO_URL=$INSIGHT_TOPO_URL \
     INSIGHT_SOURCE_URL=$INSIGHT_SOURCE_URL
-RUN bun turbo run build --filter=app
 
-FROM base AS prod-install
-COPY --from=pruner /usr/src/app/out/json/ .
-RUN bun install --production --ignore-scripts --frozen-lockfile
+RUN bun turbo run build --filter=app
 
 FROM base AS release
 ENV NODE_ENV=production
-
-COPY --from=pruner /usr/src/app/out/full/ ./
-COPY --from=install /usr/src/app/node_modules ./node_modules
-COPY --from=build /usr/src/app/apps/app/dist ./apps/app/dist
-COPY --from=build /usr/src/app/apps/site/dist ./apps/site/dist
-COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
-COPY scripts ./scripts
+COPY --from=build /usr/src/app ./
 
 EXPOSE 4000
- 
-CMD [ "bun", "run", "apps/app/src/backend/index.ts" ]
+CMD ["bun", "run", "apps/app/src/backend/index.ts"]
