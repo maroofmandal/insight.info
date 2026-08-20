@@ -4,7 +4,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 interface Props { title: string; description: string; active?: string; }
 const { title, description, active } = Astro.props;
 const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
-const grouped = Object.groupBy(docs, (entry) => entry.data.category);
+const grouped = docs.reduce<Record<string, typeof docs>>((categories, entry) => {
+  (categories[entry.data.category] ??= []).push(entry);
+  return categories;
+}, {});
 ---
 <BaseLayout title={`${title} · Documentation`} description={description}>
   <div class="docs-layout shell">
