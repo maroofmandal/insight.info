@@ -62,6 +62,6 @@ test.describe('public dashboard', () => {
     test.skip(!domain, 'Set E2E_PUBLIC_DOMAIN after seeding a public project.');
     await page.goto(`/${domain}?t=24hrs`);
     await expect(page).toHaveURL(new RegExp(`/${domain?.replace('.', '\\.')}\\?t=24hrs`));
-    await expect(page.getByText(domain ?? '')).toBeVisible();
+    await expect(page.locator(`a[href="https://${domain}"]`)).toBeVisible();
   });
 });
