@@ -92,12 +92,12 @@ function Page() {
   useSetBreadcrumbs(['Dashboard']);
   useSetDocsLink(
     data && data.isInitialized === false
-      ? 'https://vemetric.com/docs/installation'
-      : 'https://vemetric.com/docs/dashboard',
+      ? 'https://insight.info/docs/installation'
+      : 'https://insight.info/docs/dashboard',
   );
 
   if (error?.data?.httpStatus === 403) {
-    return <Navigate to="/" />;
+    return <Navigate to="/app" />;
   }
 
   return (

@@ -17,50 +17,50 @@ export const IntegrationGuides = () => {
       <DocsCard
         icon={TbCode}
         title="HTML Script Tag"
-        description="The simplest way to integrate Vemetric into any website."
-        href="https://vemetric.com/docs/sdks/html-script"
+        description="The simplest way to integrate Insight.info into any website."
+        href="https://insight.info/docs/sdks/html-script"
       />
       <DocsCard
         icon={TbBrandNpm}
         title="JavaScript SDK"
         description="For web applications, with proper TypeScript support."
-        href="https://vemetric.com/docs/sdks/javascript"
+        href="https://insight.info/docs/sdks/javascript"
       />
       <DocsCard
         icon={TbBrandGoogleFilled}
         title="Google Tag Manager"
-        description="Integrate Vemetric using Google Tag Manager."
-        href="https://vemetric.com/docs/installation/google-tag-manager"
+        description="Integrate Insight.info using Google Tag Manager."
+        href="https://insight.info/docs/install/google-tag-manager"
       />
       <DocsCard
         icon={TbBrandWordpress}
         title="WordPress"
-        description="Integrate Vemetric into your WordPress website."
-        href="https://vemetric.com/docs/installation/wordpress"
+        description="Integrate Insight.info into your WordPress website."
+        href="https://insight.info/docs/install/wordpress"
       />
       <DocsCard
         icon={TbBrandAstro}
         title="Astro SDK"
-        description="Integrate Vemetric into your Astro application"
-        href="https://vemetric.com/docs/sdks/astro"
+        description="Integrate Insight.info into your Astro application"
+        href="https://insight.info/docs/sdks/astro"
       />
       <DocsCard
         icon={TbBrandNextjs}
         title="Next.js"
-        description="Integrate Vemetric into your Next.js application"
-        href="https://vemetric.com/docs/installation/nextjs"
+        description="Integrate Insight.info into your Next.js application"
+        href="https://insight.info/docs/install/nextjs"
       />
       <DocsCard
         icon={TbRegistered}
         title="React Router (Remix)"
-        description="Integrate Vemetric into your React Router application"
-        href="https://vemetric.com/docs/installation/react-router"
+        description="Integrate Insight.info into your React Router application"
+        href="https://insight.info/docs/install/react-router"
       />
       <DocsCard
         icon={TbBrandReact}
         title="React SDK"
-        description="Integrate Vemetric into your React application"
-        href="https://vemetric.com/docs/sdks/react"
+        description="Integrate Insight.info into your React application"
+        href="https://insight.info/docs/sdks/react"
       />
     </SimpleGrid>
   );

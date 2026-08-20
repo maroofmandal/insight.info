@@ -1,0 +1,6 @@
+---
+interface Props { eyebrow: string; title: string; description: string; }
+const { eyebrow, title, description } = Astro.props;
+---
+<header class="page-hero shell"><span class="eyebrow">{eyebrow}</span><h1>{title}</h1><p class="lede">{description}</p></header>
+<style>.page-hero{padding:105px 0 65px;text-align:center}.page-hero h1{max-width:900px;margin:22px auto}.page-hero p{max-width:720px;margin:0 auto}@media(max-width:600px){.page-hero{padding:72px 0 45px}}</style>

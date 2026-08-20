@@ -47,7 +47,7 @@ export async function requireAnonymous() {
 
   if (session?.user) {
     throw redirect({
-      to: '/',
+      to: '/app',
       replace: true,
     });
   }
@@ -65,7 +65,7 @@ export async function requireOrganizationOnboarded(organizationId: string) {
 
   if (!status) {
     // User doesn't have access to this org, redirect to home
-    throw redirect({ to: '/', replace: true });
+    throw redirect({ to: '/app', replace: true });
   }
 
   if (!status.hasPricing) {
@@ -100,7 +100,7 @@ export async function requireProjectAccess(projectId: string) {
 
   // User doesn't have access to this project
   if (!project) {
-    throw redirect({ to: '/', replace: true });
+    throw redirect({ to: '/app', replace: true });
   }
 
   return { session, project };
@@ -118,7 +118,7 @@ export async function requireOnboardingPricing({ search }: { search: { orgId: st
 
   // Org doesn't exist or user doesn't have access
   if (!status) {
-    throw redirect({ to: '/', replace: true });
+    throw redirect({ to: '/app', replace: true });
   }
 
   // Non-admin members can't complete onboarding - redirect to waiting page
@@ -157,7 +157,7 @@ export async function requireOnboardingProject({ search }: { search: { orgId: st
 
   // Org doesn't exist or user doesn't have access
   if (!status) {
-    throw redirect({ to: '/', replace: true });
+    throw redirect({ to: '/app', replace: true });
   }
 
   // Non-admin members can't complete onboarding - redirect to waiting page
@@ -198,7 +198,7 @@ export async function requireOnboardingWaiting({ search }: { search: { orgId: st
 
   // Org doesn't exist or user doesn't have access
   if (!status) {
-    throw redirect({ to: '/', replace: true });
+    throw redirect({ to: '/app', replace: true });
   }
 
   // Org is fully onboarded - redirect to home

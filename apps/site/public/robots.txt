@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /legal/terms-of-service
+Disallow: /legal/privacy-policy
+Disallow: /legal/cookie-policy
+
+Sitemap: https://insight.info/sitemap-index.xml

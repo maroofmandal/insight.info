@@ -1,6 +1,6 @@
-import { Body, Column, Container, Head, Html, Img, Link, Preview, Row, Section, Text } from '@react-email/components';
+import { Body, Container, Head, Html, Img, Link, Preview, Section, Text } from '@react-email/components';
 
-export const baseUrl = 'https://vemetric.com';
+export const baseUrl = 'https://insight.info';
 
 interface Props {
   children: React.ReactNode;
@@ -15,39 +15,25 @@ export const BaseTemplate = ({ children, previewText, unsubscribeLink }: Props) 
       <Preview>{previewText}</Preview>
       <Body style={mainStyle}>
         <Container style={containerStyle}>
-          <Img src={`${baseUrl}/images/logo.png`} width="40" height="40" alt="Vemetric Logo" />
+          <Img src={`${baseUrl}/favicon-196.png`} width="48" height="48" alt="Insight.info logo" />
           {children}
-          <Section style={{ margin: '25px 0px', marginBottom: '0px', width: 'auto' }}>
-            <Row>
-              <Column>
-                <Img src="https://cdn.snappi.fyi/dominik3.png" width="75" height="75" alt="Avatar of Dominik" />
-              </Column>
-              <Column>
-                <Text style={{ margin: '0px 15px' }}>
-                  Best regards,
-                  <br />
-                  Dominik
-                  <br />
-                  <span style={{ color: '#666666' }}>Founder of Vemetric</span>
-                </Text>
-              </Column>
-            </Row>
-          </Section>
+          <Text style={{ ...textStyle, marginTop: '28px' }}>
+            Best regards,
+            <br />
+            The Insight.info team
+          </Text>
         </Container>
         <Section>
           <Text style={{ ...footerStyle, marginBottom: '0px' }}>
             &copy;{' '}
-            <Link style={blackStyle} href="https://vemetric.com">
-              Vemetric
+            <Link style={blackStyle} href="https://insight.info">
+              Insight.info
             </Link>{' '}
-            - All rights reserved.
+            — privacy-conscious web and product analytics.
           </Text>
           <Text style={{ ...footerStyle, marginTop: '10px', lineHeight: '1.5em' }}>
-            seriouscode GmbH
-            <br />
-            Stockerauer Straße 181, 2100 Korneuburg
-            <br />
-            Austria
+            Contact: info@insight.info · Legal information remains in draft until the operator publishes verified
+            details.
           </Text>
           {unsubscribeLink && (
             <Text style={{ ...footerStyle, marginTop: '20px', fontSize: '12px', lineHeight: '1.5em' }}>

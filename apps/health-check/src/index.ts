@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 // --- Configuration ---
 // Use environment variables for configuration
-const VEMETRIC_TOKEN: string | undefined = process.env.VEMETRIC_TOKEN;
-const VEMETRIC_PROJECT_ID: string | undefined = process.env.VEMETRIC_PROJECT_ID;
+const VEMETRIC_TOKEN: string | undefined = process.env.INSIGHT_TOKEN ?? process.env.VEMETRIC_TOKEN;
+const VEMETRIC_PROJECT_ID: string | undefined = process.env.INSIGHT_PROJECT_ID ?? process.env.VEMETRIC_PROJECT_ID;
 const CLICKHOUSE_HOST: string = process.env.CLICKHOUSE_HOST ?? 'http://localhost:8123';
 const CLICKHOUSE_PASSWORD: string = process.env.CLICKHOUSE_PASSWORD ?? '';
 
@@ -34,11 +34,11 @@ async function runHealthCheck(): Promise<void> {
 
   // 1. Validate Configuration
   if (!VEMETRIC_TOKEN) {
-    console.error('Error: VEMETRIC_TOKEN environment variable is not configured.');
+    console.error('Error: INSIGHT_TOKEN (or VEMETRIC_TOKEN) is not configured.');
     process.exit(1);
   }
   if (!VEMETRIC_PROJECT_ID) {
-    console.error('Error: VEMETRIC_PROJECT_ID environment variable is not configured.');
+    console.error('Error: INSIGHT_PROJECT_ID (or VEMETRIC_PROJECT_ID) is not configured.');
     process.exit(1);
   }
 

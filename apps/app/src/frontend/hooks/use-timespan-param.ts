@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { getStoredTimespanData, setStoredTimespanData } from '@/utils/session-storage';
 
 export type TimespanRoute =
-  | '/public/$domain'
+  | '/$domain'
   | '/_layout/p/$projectId/'
   | '/_layout/p/$projectId/funnels/'
   | '/_layout/p/$projectId/funnels/$funnelId'
@@ -25,14 +25,16 @@ export const useTimespanParam = ({ from }: Props) => {
     ed?: string;
   };
   const hasAnyParam = Boolean(t || sd || ed);
+  const isPublicDashboard = from === '/$domain';
 
   const storedTimeSpanData = getStoredTimespanData();
-  const timespan = t ?? storedTimeSpanData.timespan ?? '24hrs';
-  const startDate = sd ?? (hasAnyParam ? undefined : storedTimeSpanData.startDate);
-  const endDate = ed ?? (hasAnyParam ? undefined : storedTimeSpanData.endDate);
+  const timespan = t ?? (isPublicDashboard ? '24hrs' : storedTimeSpanData.timespan) ?? '24hrs';
+  const startDate = sd ?? (hasAnyParam || isPublicDashboard ? undefined : storedTimeSpanData.startDate);
+  const endDate = ed ?? (hasAnyParam || isPublicDashboard ? undefined : storedTimeSpanData.endDate);
 
   useEffect(() => {
-    if (t !== timespan || sd !== startDate || ed !== endDate) {
+    const keepImplicitPublicDefault = isPublicDashboard && !hasAnyParam;
+    if (!keepImplicitPublicDefault && (t !== timespan || sd !== startDate || ed !== endDate)) {
       navigate({
         search: (prev) => ({ ...prev, t: timespan, sd: startDate, ed: endDate }),
         params: (prev) => prev,
@@ -40,8 +42,10 @@ export const useTimespanParam = ({ from }: Props) => {
       });
     }
 
-    setStoredTimespanData(timespan, startDate, endDate);
-  }, [timespan, t, startDate, sd, endDate, ed, navigate]);
+    if (!keepImplicitPublicDefault) {
+      setStoredTimespanData(timespan, startDate, endDate);
+    }
+  }, [timespan, t, startDate, sd, endDate, ed, navigate, isPublicDashboard, hasAnyParam]);
 
   return { timespan, startDate, endDate };
 };

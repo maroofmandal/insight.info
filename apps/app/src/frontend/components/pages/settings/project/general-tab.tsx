@@ -15,6 +15,7 @@ import {
   Icon,
 } from '@chakra-ui/react';
 import { Link as RouterLink, Navigate } from '@tanstack/react-router';
+import { getPublicDashboardUrl } from '@vemetric/common/public-dashboard';
 import { useEffect, useState } from 'react';
 import {
   TbDashboard,
@@ -39,6 +40,7 @@ import { useCurrentOrganization } from '@/hooks/use-current-organization';
 import { authClient } from '@/utils/auth';
 import { getFaviconUrl } from '@/utils/favicon';
 import { trpc } from '@/utils/trpc';
+import { getLandingPageUrl } from '@/utils/url';
 import { InstallationCard } from './installation-card';
 
 interface Props {
@@ -150,7 +152,7 @@ export const ProjectGeneralTab = (props: Props) => {
   }
 
   if (!projectSettings) {
-    return <Navigate to="/" />;
+    return <Navigate to="/app" />;
   }
 
   return (
@@ -214,7 +216,7 @@ export const ProjectGeneralTab = (props: Props) => {
                 />
               </InputGroup>
               <Field.HelperText>
-                We suggest to use the root domain for your project, as Vemetric supports tracking across subdomains.
+                We suggest to use the root domain for your project, as Insight.info supports tracking across subdomains.
                 (e.g. landing page on <code>example.com</code>, and your app on <code>dashboard.example.com</code>)
               </Field.HelperText>
             </Field.Root>
@@ -267,8 +269,8 @@ export const ProjectGeneralTab = (props: Props) => {
                 <Text fontSize="sm">Your public dashboard is available at:</Text>
 
                 <Link asChild fontWeight="medium" color="blue.500" target="_blank" rel="noopener noreferrer">
-                  <RouterLink to="/public/$domain" params={{ domain: projectSettings.domain }}>
-                    https://app.vemetric.com/public/{projectSettings.domain}
+                  <RouterLink to="/$domain" params={{ domain: projectSettings.domain }} search={{ t: '24hrs' }}>
+                    {getPublicDashboardUrl(projectSettings.domain, getLandingPageUrl())}
                   </RouterLink>
                 </Link>
               </Box>

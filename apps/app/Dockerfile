@@ -13,6 +13,18 @@ RUN bun install --ignore-scripts --frozen-lockfile
 
 FROM install AS build
 COPY --from=pruner /usr/src/app/out/full/ .
+ARG INSIGHT_SITE_URL=https://insight.info
+ARG INSIGHT_APP_URL=https://insight.info
+ARG INSIGHT_HUB_URL=https://insight.info/hub
+ARG INSIGHT_SINGLE_ORIGIN=true
+ARG INSIGHT_TOPO_URL=https://insight.info/topo.json
+ARG INSIGHT_SOURCE_URL=https://github.com/maroofmandal/insight.info
+ENV INSIGHT_SITE_URL=$INSIGHT_SITE_URL \
+    INSIGHT_APP_URL=$INSIGHT_APP_URL \
+    INSIGHT_HUB_URL=$INSIGHT_HUB_URL \
+    INSIGHT_SINGLE_ORIGIN=$INSIGHT_SINGLE_ORIGIN \
+    INSIGHT_TOPO_URL=$INSIGHT_TOPO_URL \
+    INSIGHT_SOURCE_URL=$INSIGHT_SOURCE_URL
 RUN bun turbo run build --filter=app
 
 FROM base AS prod-install
@@ -23,9 +35,11 @@ FROM base AS release
 ENV NODE_ENV=production
 
 COPY --from=pruner /usr/src/app/out/full/ ./
-COPY --from=prod-install /usr/src/app/node_modules ./node_modules
+COPY --from=install /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/apps/app/dist ./apps/app/dist
+COPY --from=build /usr/src/app/apps/site/dist ./apps/site/dist
 COPY --from=build /usr/src/app/node_modules/.prisma ./node_modules/.prisma
+COPY scripts ./scripts
 
 EXPOSE 4000
  

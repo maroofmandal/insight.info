@@ -1,8 +1,8 @@
 {
-  "name": "vemetric",
-  "description": "Simple, yet powerful web- and product analytics.",
+  "name": "insight-info",
+  "description": "Privacy-conscious web and product analytics for clear, actionable insight.",
   "private": true,
-  "author": "Vemetric <info@vemetric.com> (https://vemetric.com/)",
+  "author": "Insight.info <info@insight.info> (https://insight.info/)",
   "scripts": {
     "build": "turbo run build --filter=!./apps/dev-proxy",
     "dev": "turbo run dev --filter=!./apps/health-check",

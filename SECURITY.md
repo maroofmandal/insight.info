@@ -1,23 +1,12 @@
-# Security Policy
+# Security policy
 
-## Security Updates
+Please do not disclose a suspected vulnerability in a public issue before it has been assessed.
 
-We aim to fix any known vulnerability as soon as possible. When a security vulnerability is discovered:
+Report security concerns to `security@insight.info` with:
 
-1. We will assess the severity and impact
-2. For critical vulnerabilities, we will release a patch as soon as possible
-3. For non-critical vulnerabilities, we will include fixes in the next planned release
+- the affected component and version or commit;
+- steps to reproduce and expected impact;
+- any suggested mitigation; and
+- a safe way to contact you.
 
-When we support self-hosted versions of Vemetric in the future, we'll notify users about new versions that fix critical vulnerabilities.
-
-## Reporting a Vulnerability
-
-If you discover any security-related issues, please follow these steps:
-
-1. Please act responsibly and **do not disclose the vulnerability publicly**
-2. Email us at info@vemetric.com with:
-   - A description of the vulnerability
-   - Steps to reproduce the issue
-   - Potential impact
-   - Any suggested fixes (if available)
-3. We will keep you updated on our progress in addressing the issue
+Do not include live customer data, credentials or destructive proof-of-concept actions. Insight.info is an AGPL fork of Vemetric; issues that are demonstrably upstream may also need coordinated reporting to the upstream maintainers.

@@ -21,7 +21,7 @@ export const GoogleAuthCard = ({ isConnected, hasPassword, hasOtherProvider, onU
     setIsLoading(true);
     const result = await authClient.linkSocial({
       provider: 'google',
-      callbackURL: getAppUrl() + '/?settings=auth',
+      callbackURL: getAppUrl() + '/app?settings=auth',
     });
 
     if (result.error) {

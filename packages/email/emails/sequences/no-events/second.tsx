@@ -16,7 +16,7 @@ export const NoEventsSecondMail = ({ userName, projectName, unsubscribeLink }: P
       <Section>
         <Text style={textStyle}>{greeting},</Text>
         <Text style={textStyle}>
-          A few days ago, I sent you an email including installation guides for Vemetric to setup your new project{' '}
+          A few days ago, I sent you an email including installation guides for Insight.info to setup your new project{' '}
           <strong>{projectName}</strong>. I'd be happy to schedule a call to help you get everything set up.
         </Text>
         <Text style={textStyle}>
@@ -24,7 +24,7 @@ export const NoEventsSecondMail = ({ userName, projectName, unsubscribeLink }: P
           <br />
           - Walk through the setup process together
           <br />
-          - Answer any questions you have about Vemetric
+          - Answer any questions you have about Insight.info
           <br />- Help you plan your analytics strategy
         </Text>
         <Button style={buttonStyle} href="https://seriouscode.io/call/dominik">
@@ -39,7 +39,7 @@ export const NoEventsSecondMail = ({ userName, projectName, unsubscribeLink }: P
 NoEventsSecondMail.PreviewProps = {
   userName: 'John',
   projectName: 'My Awesome App',
-  unsubscribeLink: 'https://app.vemetric.com/_api/email/unsubscribe?token=123',
+  unsubscribeLink: 'https://insight.info/_api/email/unsubscribe?token=123',
 } as Props;
 
 export default NoEventsSecondMail;

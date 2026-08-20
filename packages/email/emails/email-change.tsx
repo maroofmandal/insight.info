@@ -23,7 +23,7 @@ export const EmailChangeMail = ({ verificationLink }: Props) => {
 };
 
 EmailChangeMail.PreviewProps = {
-  verificationLink: 'https://vemetric.com',
+  verificationLink: 'https://insight.info',
 } as Props;
 
 export default EmailChangeMail;

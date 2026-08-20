@@ -10,9 +10,9 @@ export const NoProjectFirstMail = ({ userName, unsubscribeLink }: Props) => {
   const greeting = userName ? `Hey ${userName}` : 'Hey there';
 
   return (
-    <BaseTemplate previewText="Integrate Vemetric and gain valuable insights" unsubscribeLink={unsubscribeLink}>
+    <BaseTemplate previewText="Integrate Insight.info and gain valuable insights" unsubscribeLink={unsubscribeLink}>
       <Section>
-        <Text style={textStyle}>{greeting}, welcome to Vemetric!</Text>
+        <Text style={textStyle}>{greeting}, welcome to Insight.info!</Text>
         <Text style={textStyle}>
           I noticed you signed up but haven't created your first project yet. Creating a project is the first step to
           start tracking your website and app analytics.
@@ -20,14 +20,14 @@ export const NoProjectFirstMail = ({ userName, unsubscribeLink }: Props) => {
         <Text style={textStyle}>
           It takes less than a minute and with our{' '}
           <a
-            href={`https://vemetric.com/docs/installation?utm_campaign=no-project&utm_content=first`}
+            href={`https://insight.info/docs/installation?utm_campaign=no-project&utm_content=first`}
             style={anchorStyle}
           >
             installation guides
           </a>{' '}
-          you can integrate Vemetric in no time!
+          you can integrate Insight.info in no time!
         </Text>
-        <Button style={buttonStyle} href="https://app.vemetric.com?utm_campaign=no-project&utm_content=first">
+        <Button style={buttonStyle} href="https://insight.info?utm_campaign=no-project&utm_content=first">
           Create Your First Project
         </Button>
         <Text style={textStyle}>Need help or have any questions? Just reply to this email!</Text>
@@ -38,7 +38,7 @@ export const NoProjectFirstMail = ({ userName, unsubscribeLink }: Props) => {
 
 NoProjectFirstMail.PreviewProps = {
   userName: 'John',
-  unsubscribeLink: 'https://app.vemetric.com/_api/email/unsubscribe?token=123',
+  unsubscribeLink: 'https://insight.info/_api/email/unsubscribe?token=123',
 } as Props;
 
 export default NoProjectFirstMail;

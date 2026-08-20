@@ -34,7 +34,7 @@ function UnsubscribePage() {
         toaster.create({
           id: 'email-unsubscribe-success',
           title: 'Successfully unsubscribed',
-          description: 'You will no longer receive email tips from Vemetric.',
+          description: 'You will no longer receive email tips from Insight.info.',
           type: 'success',
           duration: 10000,
           meta: { closable: true },
@@ -43,5 +43,5 @@ function UnsubscribePage() {
     }
   }, [error, hasShownToast]);
 
-  return <Navigate to="/" />;
+  return <Navigate to="/app" />;
 }

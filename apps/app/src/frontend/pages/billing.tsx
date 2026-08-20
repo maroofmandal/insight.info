@@ -9,7 +9,7 @@ export const Route = createFileRoute('/billing')({
     // No organizations - redirect to home (which will handle onboarding)
     if (session.organizations.length === 0) {
       throw redirect({
-        to: '/',
+        to: '/app',
         replace: true,
       });
     }

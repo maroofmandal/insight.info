@@ -1,7 +1,7 @@
 {
   "name": "health-check",
   "version": "1.0.0",
-  "description": "Health check service for Vemetric event pipeline",
+  "description": "Health check service for the Insight.info event pipeline",
   "private": true,
   "type": "module",
   "scripts": {

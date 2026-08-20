@@ -21,7 +21,7 @@ export const GitHubAuthCard = ({ isConnected, hasPassword, hasOtherProvider, onU
     setIsLoading(true);
     const result = await authClient.linkSocial({
       provider: 'github',
-      callbackURL: getAppUrl() + '/?settings=auth',
+      callbackURL: getAppUrl() + '/app?settings=auth',
     });
 
     if (result.error) {

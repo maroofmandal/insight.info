@@ -36,11 +36,11 @@ const projectRoute = createRoute({
                 }),
                 name: z.string().openapi({
                   description: 'Name of the project',
-                  example: 'Vemetric',
+                  example: 'Insight.info',
                 }),
                 domain: z.string().openapi({
                   description: 'Primary domain of the project',
-                  example: 'vemetric.com',
+                  example: 'insight.info',
                 }),
                 token: z.string().openapi({
                   description: 'Public token used for tracking',

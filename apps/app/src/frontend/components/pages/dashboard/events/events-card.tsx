@@ -44,19 +44,19 @@ interface Props {
 }
 
 export const EventsCard = ({ filterConfig, publicDashboard }: Props) => {
-  const params = useParams({ from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/' });
+  const params = useParams({ from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/' });
   const { timespan, startDate, endDate } = useTimespanParam({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const { me: selectedEvent } = useSearch({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const { showEvents, toggleCategory } = useChartToggles({
     publicDashboard,
   });
   const [page, setPage] = useState(1);
-  const { toggleFilter } = useFilters({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
-  const navigate = useNavigate({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
+  const { toggleFilter } = useFilters({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
+  const navigate = useNavigate({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
   const { eventIcons } = useProjectContext();
 
   const selectEvent = (eventName: string | null, property?: string | null) => {
@@ -114,7 +114,7 @@ export const EventsCard = ({ filterConfig, publicDashboard }: Props) => {
                   <EmptyState icon={<TbBolt />} title="No custom events fired in the selected timeframe">
                     <Button size="sm" asChild mt={2} _hover={{ textDecoration: 'none' }}>
                       <ChakraLink
-                        href="https://vemetric.com/docs/product-analytics/tracking-custom-events"
+                        href="https://insight.info/docs/product-analytics/tracking-custom-events"
                         target="_blank"
                       >
                         Start tracking custom events

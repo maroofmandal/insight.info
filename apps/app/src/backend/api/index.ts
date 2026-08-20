@@ -10,7 +10,7 @@ import { registerUserRoutes } from './routes/users';
 import type { PublicApiHonoEnv } from './types';
 import { createValidationErrorResponse, errorHandler } from './utils/errors';
 
-export const API_DOCS_URL = 'https://vemetric.com/docs/api/getting-started';
+export const API_DOCS_URL = 'https://insight.info/docs/api/getting-started';
 
 export function createPublicApi() {
   const rateLimitMiddleware = createRateLimitMiddleware();
@@ -26,7 +26,7 @@ export function createPublicApi() {
   api.doc('/openapi.json', {
     openapi: '3.0.0',
     info: {
-      title: 'Vemetric API',
+      title: 'Insight.info API',
       version: '1.0.0',
       description: 'Privacy-first analytics API',
     },
@@ -52,7 +52,7 @@ export function createPublicApi() {
       {
         error: {
           code: 'NOT_FOUND',
-          message: 'Route not found. See https://vemetric.com/docs/api',
+          message: 'Route not found. See https://insight.info/docs/api/getting-started',
         },
       },
       404,

@@ -8,11 +8,11 @@ interface Props {
 
 export const PasswordResetMail = ({ firstName, resetLink }: Props) => {
   return (
-    <BaseTemplate previewText="Someone requested a password change for your Vemetric account.">
+    <BaseTemplate previewText="Someone requested a password change for your Insight.info account.">
       <Section>
         <Text style={textStyle}>Hey {firstName},</Text>
         <Text style={textStyle}>
-          Someone requested a password change for your Vemetric account. If this was you, you can set a new password
+          Someone requested a password change for your Insight.info account. If this was you, you can set a new password
           here:
         </Text>
         <Button style={buttonStyle} href={resetLink}>
@@ -30,7 +30,7 @@ export const PasswordResetMail = ({ firstName, resetLink }: Props) => {
 
 PasswordResetMail.PreviewProps = {
   firstName: 'John',
-  resetLink: 'https://vemetric.com',
+  resetLink: 'https://insight.info',
 } as Props;
 
 export default PasswordResetMail;

@@ -1,4 +1,4 @@
-# Vemetric App (SPA + API)
+# Insight.info App (SPA + API)
 
 This app combines the Vite SPA and Hono backend into a single deployable service.
 The Hono server serves the built SPA in production and exposes backend routes under `/_api`.

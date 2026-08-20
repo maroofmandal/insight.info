@@ -186,7 +186,7 @@ export const DashboardChart = (props: Props) => {
   const yAxisDomain = getYAxisDomain(autoMinValue, minValue, maxValue);
   const areaId = React.useId();
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const navigate = useNavigate({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
+  const navigate = useNavigate({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
   const { activeCategoryKeys, showEvents, toggleCategory } = useChartToggles({
     publicDashboard,
   });
@@ -575,8 +575,8 @@ export const DashboardChart = (props: Props) => {
                 title="No data available"
                 description="Adjust the current filters or timeframe to explore a different slice of data."
                 filterConfig={filterConfig}
-                filterRoute={publicDashboard ? '/public/$domain' : '/p/$projectId'}
-                timespanRoute={publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/'}
+                filterRoute={publicDashboard ? '/$domain' : '/p/$projectId'}
+                timespanRoute={publicDashboard ? '/$domain' : '/_layout/p/$projectId/'}
               />
             </Flex>
           )}

@@ -18,12 +18,12 @@ interface Props {
 }
 
 export const EventPropertiesView = ({ publicDashboard, eventName, onBack, onSelectProperty }: Props) => {
-  const params = useParams({ from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/' });
+  const params = useParams({ from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/' });
   const { timespan, startDate, endDate } = useTimespanParam({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const { f: filterConfig } = useSearch({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const [page, setPage] = useState(1);
 
@@ -47,7 +47,7 @@ export const EventPropertiesView = ({ publicDashboard, eventName, onBack, onSele
   if (data?.properties?.length === 1) {
     return (
       <Navigate
-        from={publicDashboard ? '/public/$domain' : '/p/$projectId'}
+        from={publicDashboard ? '/$domain' : '/p/$projectId'}
         search={(prev) => ({ ...prev, me: { n: eventName, p: data?.properties?.[0].name } })}
         params={(prev) => prev}
         resetScroll={false}

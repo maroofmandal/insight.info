@@ -13,12 +13,12 @@ export const FirstEventFeedbackMail = ({ userName, unsubscribeLink }: Props) => 
     <BaseTemplate previewText="I'd love to hear your feedback" unsubscribeLink={unsubscribeLink}>
       <Section>
         <Text style={textStyle}>{greeting},</Text>
-        <Text style={textStyle}>It's been a week since you started tracking events with Vemetric! 🎉</Text>
+        <Text style={textStyle}>It's been a week since you started tracking events with Insight.info! 🎉</Text>
         <Text style={textStyle}>
-          As I'm constantly trying to improve Vemetric, I have a <strong>few quick questions</strong>:
+          As I'm constantly trying to improve Insight.info, I have a <strong>few quick questions</strong>:
         </Text>
         <Text style={textStyle}>
-          • How are you liking Vemetric so far?
+          • How are you liking Insight.info so far?
           <br />
           • Are you missing any features?
           <br />• Any open questions or other feedback you'd like to share?
@@ -31,7 +31,7 @@ export const FirstEventFeedbackMail = ({ userName, unsubscribeLink }: Props) => 
           if you want to discuss things in detail.
         </Text>
         <Text style={textStyle}>
-          Thanks for using Vemetric!
+          Thanks for using Insight.info!
           <br />
           Dominik
         </Text>
@@ -43,7 +43,7 @@ export const FirstEventFeedbackMail = ({ userName, unsubscribeLink }: Props) => 
 FirstEventFeedbackMail.PreviewProps = {
   userName: 'John',
   projectName: 'snappify',
-  unsubscribeLink: 'https://app.vemetric.com/_api/email/unsubscribe?token=123',
+  unsubscribeLink: 'https://insight.info/_api/email/unsubscribe?token=123',
 } as Props;
 
 export default FirstEventFeedbackMail;

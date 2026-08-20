@@ -1,11 +1,12 @@
-import { getVemetricUrl } from '@vemetric/common/env';
+import { getInsightToken, getVemetricUrl } from '@vemetric/common/env';
 import { Vemetric } from '@vemetric/node';
 
-if (!process.env.VEMETRIC_TOKEN) {
-  throw new Error('VEMETRIC_TOKEN is required');
+const insightToken = getInsightToken();
+if (!insightToken) {
+  throw new Error('INSIGHT_TOKEN (or VEMETRIC_TOKEN) is required');
 }
 
 export const vemetric = new Vemetric({
   host: `${getVemetricUrl('hub')}`,
-  token: process.env.VEMETRIC_TOKEN,
+  token: insightToken,
 });

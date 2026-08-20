@@ -174,7 +174,7 @@ function RouteComponent() {
       </Flex>
     ),
   ]);
-  useSetDocsLink('https://vemetric.com/docs/product-analytics/funnels');
+  useSetDocsLink('https://insight.info/docs/product-analytics/funnels');
 
   if (isFunnelError || isResultsError) {
     return (

@@ -110,7 +110,7 @@ function Page() {
             Create Organization
           </Button>
           {hasExistingOrganizations && (
-            <Button type="button" variant="outline" onClick={() => navigate({ to: '/' })} disabled={isLoading}>
+            <Button type="button" variant="outline" onClick={() => navigate({ to: '/app' })} disabled={isLoading}>
               Cancel
             </Button>
           )}

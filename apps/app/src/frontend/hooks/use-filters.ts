@@ -9,7 +9,7 @@ export type RoutesWithFiltering =
   | '/p/$projectId/users'
   | '/p/$projectId/users/$userId'
   | '/p/$projectId/events'
-  | '/public/$domain'
+  | '/$domain'
   | '/p/$projectId/events'
   | '/p/$projectId/funnels'
   | '/p/$projectId/funnels/$funnelId';

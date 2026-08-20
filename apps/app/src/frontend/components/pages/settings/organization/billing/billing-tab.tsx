@@ -151,7 +151,7 @@ export const BillingTab = ({ organizationId }: Props) => {
             {isPastDue && (
               <Text textStyle="sm" color="fg.error" mb={4}>
                 Your subscription is past due. Please make sure your payment method is up to date to continue using
-                Vemetric.
+                Insight.info.
               </Text>
             )}
             <DataList.Root orientation="horizontal">

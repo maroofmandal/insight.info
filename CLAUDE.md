@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Vemetric is an open-source web and product analytics platform built as a monorepo using Turborepo and bun. It provides real-time analytics, behavior tracking, custom event tracking, and powerful filtering mechanisms.
+Insight.info is an AGPL-licensed fork of Vemetric, built as a monorepo using Turborepo and Bun. It provides real-time web and product analytics while retaining internal and SDK compatibility identifiers.
 
 ## Architecture
 

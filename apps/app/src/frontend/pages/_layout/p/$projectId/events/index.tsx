@@ -82,7 +82,7 @@ function RouteComponent() {
   const groupedEvents = Object.entries(groupBy(events, (event) => event.date));
 
   useSetBreadcrumbs(['Events']);
-  useSetDocsLink('https://vemetric.com/docs/product-analytics/tracking-custom-events');
+  useSetDocsLink('https://insight.info/docs/product-analytics/tracking-custom-events');
 
   useEffect(() => {
     if (isLoading || isFilterableDataLoading) {
@@ -201,7 +201,7 @@ function RouteComponent() {
                       Try to adjust the current filters or timeframe or start{' '}
                       <ChakraLink
                         colorPalette="purple"
-                        href="https://vemetric.com/docs/product-analytics/tracking-custom-events"
+                        href="https://insight.info/docs/product-analytics/tracking-custom-events"
                       >
                         tracking events
                       </ChakraLink>{' '}

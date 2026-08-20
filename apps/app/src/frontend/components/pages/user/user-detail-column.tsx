@@ -352,7 +352,7 @@ export const UserDetailColumn = (props: Props) => {
                       <Flex justify="center">
                         <Button mt={4} asChild _hover={{ textDecoration: 'none' }}>
                           <ChakraLink
-                            href="https://vemetric.com/docs/product-analytics/user-identification"
+                            href="https://insight.info/docs/product-analytics/user-identification"
                             target="_blank"
                           >
                             Start identifying users

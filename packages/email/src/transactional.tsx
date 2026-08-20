@@ -14,8 +14,8 @@ import NoProjectSecond from '../emails/sequences/no-project/second';
 import SubscriptionCancelledMail from '../emails/subscription-cancelled';
 import SubscriptionCreatedMail from '../emails/subscription-created';
 
-export const TRANSACTIONAL_FROM_EMAIL = 'Vemetric <info@vemetric.com>';
-export const TIPS_FROM_EMAIL = 'Vemetric <info@notifications.vemetric.com>';
+export const TRANSACTIONAL_FROM_EMAIL = process.env.INSIGHT_FROM_EMAIL || 'Insight.info <info@insight.info>';
+export const TIPS_FROM_EMAIL = process.env.INSIGHT_TIPS_FROM_EMAIL || 'Insight.info <info@notifications.insight.info>';
 
 type MessageStreamId = 'outbound' | 'tips';
 
@@ -41,7 +41,7 @@ export const TRANSACTIONAL_TEMPLATE_MAP = {
     email: NoEventsFirst,
   },
   noEventsSecond: {
-    subject: "Let's setup Vemetric together",
+    subject: "Let's setup Insight.info together",
     email: NoEventsSecond,
   },
   noProjectFirst: {
@@ -49,11 +49,11 @@ export const TRANSACTIONAL_TEMPLATE_MAP = {
     email: NoProjectFirst,
   },
   noProjectSecond: {
-    subject: "Let's setup Vemetric together",
+    subject: "Let's setup Insight.info together",
     email: NoProjectSecond,
   },
   firstEventFeedback: {
-    subject: "How's your experience with Vemetric so far?",
+    subject: "How's your experience with Insight.info so far?",
     email: FirstEventFeedback,
   },
   subscriptionCancelled: {
@@ -61,7 +61,7 @@ export const TRANSACTIONAL_TEMPLATE_MAP = {
     email: SubscriptionCancelledMail,
   },
   subscriptionCreated: {
-    subject: 'Welcome to Vemetric Pro!',
+    subject: 'Welcome to Insight.info Pro!',
     email: SubscriptionCreatedMail,
   },
 };

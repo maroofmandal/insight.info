@@ -13,7 +13,7 @@ export const SubscriptionCancelledMail = ({ userName }: Props) => {
       <Section>
         <Text style={textStyle}>{greeting},</Text>
         <Text style={textStyle}>
-          I'm sad to see you go, but I'm also grateful that you gave Vemetric a try and were part of the journey!
+          I'm sad to see you go, but I'm also grateful that you gave Insight.info a try and were part of the journey!
         </Text>
         <Text style={textStyle}>
           I'd love to understand what led to your decision - your feedback would really help me improve the product.

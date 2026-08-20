@@ -44,7 +44,7 @@ export function ProjectInitCard(props: Props) {
             Start sending your first events
           </Text>
           <Text fontSize="md" opacity={0.8} maxW="400px">
-            Once you&apos;ve integrated Vemetric, refresh this page to see the data. It might take a few seconds to
+            Once you&apos;ve integrated Insight.info, refresh this page to see the data. It might take a few seconds to
             appear.
           </Text>
         </Flex>
@@ -61,14 +61,14 @@ export function ProjectInitCard(props: Props) {
         <Box as="hr" mb="3" borderColor="gray.emphasized" opacity={0.5} />
 
         <Text opacity={0.7} mb="3">
-          We&apos;ve prepared the following guides to help you integrate Vemetric:
+          We&apos;ve prepared the following guides to help you integrate Insight.info:
         </Text>
 
         <IntegrationGuides />
 
         <Text opacity={0.85} mt={6} fontSize="sm" pl="1">
           Hint: we recommend{' '}
-          <Link color="purple.fg" fontWeight="medium" href="https://vemetric.com/docs/advanced-guides/using-a-proxy">
+          <Link color="purple.fg" fontWeight="medium" href="https://insight.info/docs/advanced/using-a-proxy">
             using a proxy
           </Link>{' '}
           to send events via your own domain.
@@ -85,7 +85,7 @@ export function ProjectInitCard(props: Props) {
                 <Link
                   color="purple.fg"
                   fontWeight="medium"
-                  href="https://vemetric.com/docs/product-analytics/getting-started"
+                  href="https://insight.info/docs/product-analytics/getting-started"
                 >
                   Checkout the docs
                 </Link>{' '}

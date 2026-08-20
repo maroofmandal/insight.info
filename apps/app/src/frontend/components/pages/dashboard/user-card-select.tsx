@@ -7,8 +7,8 @@ interface Props {
 }
 
 export const UserCardSelect = ({ publicDashboard }: Props) => {
-  const { u } = useSearch({ from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/' });
-  const navigate = useNavigate({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
+  const { u } = useSearch({ from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/' });
+  const navigate = useNavigate({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
 
   const userType = u ? 'other' : 'countries';
 

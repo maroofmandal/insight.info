@@ -14,8 +14,8 @@ export const NoProjectSecondMail = ({ userName, unsubscribeLink }: Props) => {
       <Section>
         <Text style={textStyle}>{greeting},</Text>
         <Text style={textStyle}>
-          A few days ago, I reached out about creating your first project in Vemetric. Are there any specific questions
-          you have about Vemetric?
+          A few days ago, I reached out about creating your first project in Insight.info. Are there any specific questions
+          you have about Insight.info?
         </Text>
         <Text style={textStyle}>
           We can schedule a call to:
@@ -30,7 +30,7 @@ export const NoProjectSecondMail = ({ userName, unsubscribeLink }: Props) => {
         </Button>
         <Text style={textStyle}>
           Or{' '}
-          <a href="https://app.vemetric.com?utm_campaign=no-project&utm_content=second" style={anchorStyle}>
+          <a href="https://insight.info?utm_campaign=no-project&utm_content=second" style={anchorStyle}>
             create your project now
           </a>{' '}
           and reply to this email if you have any questions!
@@ -42,7 +42,7 @@ export const NoProjectSecondMail = ({ userName, unsubscribeLink }: Props) => {
 
 NoProjectSecondMail.PreviewProps = {
   userName: 'John',
-  unsubscribeLink: 'https://app.vemetric.com/_api/email/unsubscribe?token=123',
+  unsubscribeLink: 'https://insight.info/_api/email/unsubscribe?token=123',
 } as Props;
 
 export default NoProjectSecondMail;

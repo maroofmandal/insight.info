@@ -13,7 +13,7 @@ export const SubscriptionCreatedMail = ({ userName }: Props) => {
       <Section>
         <Text style={textStyle}>{greeting},</Text>
         <Text style={textStyle}>
-          Thanks for subscribing to Vemetric Pro! I’m happy that you decided to support Vemetric and use it as your
+          Thanks for subscribing to Insight.info Pro! I’m happy that you decided to support Insight.info and use it as your
           analytics solution.
         </Text>
         <Text style={textStyle}>
@@ -21,11 +21,11 @@ export const SubscriptionCreatedMail = ({ userName }: Props) => {
           don't hesitate to reach out.
         </Text>
         <Text style={textStyle}>
-          I’m actively working on improving Vemetric, making it easier to use and helping you understand and act on your
+          I’m actively working on improving Insight.info, making it easier to use and helping you understand and act on your
           analytics data, so your feedback is genuinely valuable to me.
         </Text>
         <Text style={textStyle}>
-          Thanks again for choosing Vemetric.
+          Thanks again for choosing Insight.info.
           <br />
           I’m excited to see what you build with it!
         </Text>

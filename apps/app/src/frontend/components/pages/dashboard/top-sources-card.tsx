@@ -26,15 +26,15 @@ interface Props {
 }
 
 export const TopSourcesCard = ({ filterConfig, publicDashboard }: Props) => {
-  const params = useParams({ from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/' });
+  const params = useParams({ from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/' });
   const { timespan, startDate, endDate } = useTimespanParam({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const { s: sourceType = 'referrer' } = useSearch({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
-  const navigate = useNavigate({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
-  const { toggleFilter } = useFilters({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
+  const navigate = useNavigate({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
+  const { toggleFilter } = useFilters({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
 
   const activeFilters =
     filterConfig?.filters.filter(

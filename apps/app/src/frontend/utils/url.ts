@@ -16,10 +16,14 @@ function getUrl(subDomain?: SubDomain) {
 }
 
 export function getLandingPageUrl() {
-  return getUrl();
+  return import.meta.env.VITE_INSIGHT_SITE_URL || getUrl();
 }
 
 export function getAppUrl() {
+  if (import.meta.env.VITE_INSIGHT_APP_URL) return import.meta.env.VITE_INSIGHT_APP_URL;
+  if (import.meta.env.VITE_INSIGHT_SINGLE_ORIGIN === 'true' || !location.hostname.includes('localhost')) {
+    return location.origin;
+  }
   return getUrl('app');
 }
 
@@ -28,7 +32,7 @@ export function getBackendUrl() {
 }
 
 export function getHubUrl() {
-  return getUrl('hub');
+  return import.meta.env.VITE_INSIGHT_HUB_URL || getUrl('hub');
 }
 
 export function formatQueryParams(params: Record<string, any>): string {

@@ -16,13 +16,13 @@ export const NoEventsFirstMail = ({ userName, projectName, unsubscribeLink }: Pr
       <Section>
         <Text style={textStyle}>{greeting},</Text>
         <Text style={textStyle}>
-          I noticed you created a project for <strong>{projectName}</strong> in Vemetric, but haven't started tracking
+          I noticed you created a project for <strong>{projectName}</strong> in Insight.info, but haven't started tracking
           events yet.
         </Text>
         <Text style={textStyle}>
           I'd love to help you get your analytics up and running. I've already prepared a bunch of{' '}
           <a
-            href={`https://vemetric.com/docs/installation?utm_campaign=no-events&utm_content=first`}
+            href={`https://insight.info/docs/installation?utm_campaign=no-events&utm_content=first`}
             style={anchorStyle}
           >
             installation guides
@@ -35,7 +35,7 @@ export const NoEventsFirstMail = ({ userName, projectName, unsubscribeLink }: Pr
         </Text>
         <Button
           style={buttonStyle}
-          href={`https://vemetric.com/docs/installation?utm_campaign=no-events&utm_content=first`}
+          href={`https://insight.info/docs/installation?utm_campaign=no-events&utm_content=first`}
         >
           View Setup Guide
         </Button>
@@ -48,7 +48,7 @@ export const NoEventsFirstMail = ({ userName, projectName, unsubscribeLink }: Pr
 NoEventsFirstMail.PreviewProps = {
   userName: 'John',
   projectName: 'snappify',
-  unsubscribeLink: 'https://app.vemetric.com/_api/email/unsubscribe?token=123',
+  unsubscribeLink: 'https://insight.info/_api/email/unsubscribe?token=123',
 } as Props;
 
 export default NoEventsFirstMail;

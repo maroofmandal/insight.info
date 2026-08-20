@@ -36,7 +36,7 @@ function Page() {
     if (session?.data?.projects.length === 1) {
       navigate({ to: `/p/${session.data.projects[0].id}` });
     } else {
-      navigate({ to: '/' });
+      navigate({ to: '/app' });
     }
   };
 
@@ -234,7 +234,7 @@ function Page() {
 
           <Text textStyle="sm" color="fg.muted" textAlign="center">
             By logging in you accept our{' '}
-            <Link href="https://vemetric.com/legal" target="_blank" variant="underline">
+            <Link href="https://insight.info/legal/terms-of-service" target="_blank" variant="underline">
               Legal Terms
             </Link>
           </Text>

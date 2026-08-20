@@ -9,7 +9,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { countriesMapLocked, countriesMapViewState, type CountriesMapViewState } from '@/utils/local-storage';
 import { ChartTooltip } from './chart-tooltip';
 
-const geoUrl = 'https://assets.vemetric.com/topo.json';
+const geoUrl = import.meta.env.VITE_INSIGHT_TOPO_URL || 'https://assets.vemetric.com/topo.json';
 const DEFAULT_MAP_VIEW = {
   center: [0, 40] as [number, number],
   zoom: 0.85,

@@ -103,8 +103,8 @@ function Page() {
   useSetBreadcrumbs(['Users']);
   useSetDocsLink(
     !isLoading && !isInitialized
-      ? 'https://vemetric.com/docs/installation'
-      : 'https://vemetric.com/docs/product-analytics/user-journeys',
+      ? 'https://insight.info/docs/installation'
+      : 'https://insight.info/docs/product-analytics/user-journeys',
   );
 
   const gridTemplateColumns = { base: '50vw 1fr 2fr', md: '30px 3fr 1fr 1fr 40px' };

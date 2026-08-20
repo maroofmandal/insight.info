@@ -1,6 +1,7 @@
+import { FREE_PLAN_EVENTS, PUBLIC_PRICING_TIERS } from '@vemetric/common/pricing';
 import type { UsageStats } from '@vemetric/common/usage';
 
-export const FREE_PLAN_EVENTS = 2500;
+export { FREE_PLAN_EVENTS };
 
 interface SubscriptionStatus {
   isActive: boolean;
@@ -89,44 +90,44 @@ export const PRICING_PLANS: PricingPlan[] = [
   {
     monthlyId: import.meta.env.VITE_PADDLE_10K_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_10K_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 10000,
-    price: 5,
+    events: PUBLIC_PRICING_TIERS[0].events,
+    price: PUBLIC_PRICING_TIERS[0].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_100K_MONTHLY || 'pri_01jq8wm198t92vzsy36zxjmv2b',
     yearlyId: import.meta.env.VITE_PADDLE_100K_YEARLY || 'pri_01jq8wmfd44z3pe6kesjyk32kj',
-    events: 100000,
-    price: 15,
+    events: PUBLIC_PRICING_TIERS[1].events,
+    price: PUBLIC_PRICING_TIERS[1].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_250K_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_250K_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 250000,
-    price: 25,
+    events: PUBLIC_PRICING_TIERS[2].events,
+    price: PUBLIC_PRICING_TIERS[2].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_500K_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_500K_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 500000,
-    price: 40,
+    events: PUBLIC_PRICING_TIERS[3].events,
+    price: PUBLIC_PRICING_TIERS[3].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_1M_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_1M_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 1000000,
-    price: 80,
+    events: PUBLIC_PRICING_TIERS[4].events,
+    price: PUBLIC_PRICING_TIERS[4].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_2M_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_2M_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 2500000,
-    price: 160,
+    events: PUBLIC_PRICING_TIERS[5].events,
+    price: PUBLIC_PRICING_TIERS[5].monthlyPrice,
   },
   {
     monthlyId: import.meta.env.VITE_PADDLE_5M_MONTHLY || 'pri_01jq8whn80qb6ndehv6e7swx1q',
     yearlyId: import.meta.env.VITE_PADDLE_5M_YEARLY || 'pri_01jq8wj6y3aazymteg9fphg6ek',
-    events: 5000000,
-    price: 230,
+    events: PUBLIC_PRICING_TIERS[6].events,
+    price: PUBLIC_PRICING_TIERS[6].monthlyPrice,
   },
   {
     monthlyId: '',

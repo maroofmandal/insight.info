@@ -1,15 +1,16 @@
-import { getDevProxyPort, getDevProxyPortExtension } from '@vemetric/common/env';
+import { getBaseDomain, getDevProxyPort, getDevProxyPortExtension } from '@vemetric/common/env';
 import { serve, type ServerWebSocket } from 'bun';
 import { Hono } from 'hono';
 import { logger } from './logger';
 
-if (process.env.VEMETRIC_DEV_PROXY_DISABLED === 'true') {
-  logger.info('Vemetric Dev Proxy is disabled');
+if ((process.env.INSIGHT_DEV_PROXY_DISABLED ?? process.env.VEMETRIC_DEV_PROXY_DISABLED) === 'true') {
+  logger.info('Insight.info Dev Proxy is disabled');
   process.exit(0);
 }
 
 const PORT = getDevProxyPort();
 const PORT_EXTENSION = getDevProxyPortExtension();
+const BASE_DOMAIN = getBaseDomain().replace(PORT_EXTENSION, '');
 const app = new Hono();
 
 interface ProxyConfig {
@@ -26,19 +27,19 @@ interface WebSocketData {
 
 const proxies: ProxyConfig[] = [
   {
-    host: `vemetric.localhost${PORT_EXTENSION}`,
+    host: `${BASE_DOMAIN}${PORT_EXTENSION}`,
     target: 'http://localhost:4001',
   },
   {
-    host: `app.vemetric.localhost${PORT_EXTENSION}`,
+    host: `app.${BASE_DOMAIN}${PORT_EXTENSION}`,
     target: 'http://localhost:4000',
   },
   {
-    host: `hub.vemetric.localhost${PORT_EXTENSION}`,
+    host: `hub.${BASE_DOMAIN}${PORT_EXTENSION}`,
     target: 'http://localhost:4004',
   },
   {
-    host: `bullboard.vemetric.localhost${PORT_EXTENSION}`,
+    host: `bullboard.${BASE_DOMAIN}${PORT_EXTENSION}`,
     target: 'http://localhost:4121',
   },
 ];

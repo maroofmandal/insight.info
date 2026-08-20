@@ -36,7 +36,7 @@ ProjectDeletionMail.PreviewProps = {
   userName: 'John',
   projectName: 'My Project',
   projectDomain: 'example.com',
-  confirmationLink: 'https://app.vemetric.com/email/confirm-project-deletion?token=abc123',
+  confirmationLink: 'https://insight.info/email/confirm-project-deletion?token=abc123',
 } as Props;
 
 export default ProjectDeletionMail;

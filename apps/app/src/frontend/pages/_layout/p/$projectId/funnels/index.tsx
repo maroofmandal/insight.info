@@ -73,7 +73,7 @@ function RouteComponent() {
   );
 
   useSetBreadcrumbs(['Funnels']);
-  useSetDocsLink('https://vemetric.com/docs/product-analytics/funnels');
+  useSetDocsLink('https://insight.info/docs/product-analytics/funnels');
 
   return (
     <FilterContextProvider

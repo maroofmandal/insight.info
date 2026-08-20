@@ -36,13 +36,18 @@ function Page() {
         password,
         name: '',
         // callback url for email verification
-        callbackURL: getAppUrl() + '/',
+        callbackURL: getAppUrl() + '/app',
       },
       {
         onRequest: () => {
           setIsLoading(true);
         },
-        onSuccess: async () => {
+        onSuccess: async (ctx) => {
+          if (ctx.data.token) {
+            navigate({ to: '/app' });
+            return;
+          }
+
           toaster.create({
             title: 'Signup successful 🎉',
             description: 'Please verify your email before signing in. We just sent you a verification code.',
@@ -78,7 +83,7 @@ function Page() {
         <Stack gap={{ base: '2', md: '3' }}>
           <Heading size={{ base: '2xl', md: '3xl' }}>Sign up</Heading>
           <Text textStyle="md" color="fg.muted">
-            Start using Vemetric to get valuable insights
+            Start using Insight.info to get valuable insights
           </Text>
         </Stack>
 
@@ -142,7 +147,7 @@ function Page() {
 
           <Text textStyle="sm" color="fg.muted" textAlign="center">
             By signing up you accept our{' '}
-            <Link href="https://vemetric.com/legal" target="_blank" variant="underline">
+            <Link href="https://insight.info/legal/terms-of-service" target="_blank" variant="underline">
               Legal Terms
             </Link>
           </Text>

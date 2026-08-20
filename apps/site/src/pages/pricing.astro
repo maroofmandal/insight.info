@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { PUBLIC_PRICING } from '@vemetric/common/pricing';
+---
+<BaseLayout title="Pricing" description="Simple Insight.info pricing based on monthly analytics events.">
+  <PageHero eyebrow="Pricing" title="Start small. Scale when your product does." description="Every workspace begins with a useful free allowance. Choose a paid event limit only when you need it." />
+  <section class="shell pricing-page">
+    <article class="plan card"><span>Free</span><h2>$0</h2><p>{PUBLIC_PRICING.freeEvents.toLocaleString()} events every month</p><ul><li>Web and product analytics</li><li>Events, users and funnels</li><li>Public dashboards</li></ul><a class="button secondary" href="/signup">Start free</a></article>
+    <article class="plan card featured"><span>Pro</span><h2>From ${PUBLIC_PRICING.tiers[0].monthlyPrice}<small>/month</small></h2><p>Choose from {PUBLIC_PRICING.tiers[0].events.toLocaleString()} to {PUBLIC_PRICING.tiers.at(-1)?.events.toLocaleString()} monthly events.</p><ul><li>Everything in Free</li><li>Higher event limits</li><li>Usage and billing controls</li></ul><a class="button" href="/signup">Create workspace</a></article>
+  </section>
+  <section class="shell table-wrap"><h2>Monthly event tiers</h2><table><thead><tr><th>Events</th><th>Monthly</th><th>Yearly billing equivalent</th></tr></thead><tbody>{PUBLIC_PRICING.tiers.map((tier) => <tr><td>{tier.events.toLocaleString()}</td><td>${tier.monthlyPrice}</td><td>${tier.monthlyPrice * PUBLIC_PRICING.yearlyMonthsCharged}/year</td></tr>)}</tbody></table><p>Taxes and payment availability depend on the billing configuration shown at checkout.</p></section>
+</BaseLayout>
+<style>.pricing-page{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin-bottom:90px}.plan{padding:42px}.plan>span{color:var(--purple);font-weight:800}.plan h2{margin:14px 0;font-size:48px}.plan h2 small{font-size:15px;color:var(--muted);letter-spacing:0}.plan p{color:var(--muted)}.plan ul{padding-left:20px;margin:28px 0}.plan.featured{border:2px solid #a78bfa;background:linear-gradient(145deg,#fff,#faf7ff)}.table-wrap{max-width:900px;padding-bottom:110px}.table-wrap h2{font-size:36px;margin-bottom:25px}.table-wrap table{width:100%;border-collapse:collapse;background:white;border-radius:15px;overflow:hidden}.table-wrap th,.table-wrap td{padding:16px;text-align:left;border-bottom:1px solid var(--line)}.table-wrap p{color:var(--muted);font-size:13px}@media(max-width:700px){.pricing-page{grid-template-columns:1fr}.table-wrap{overflow-x:auto}}</style>

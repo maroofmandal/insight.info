@@ -84,7 +84,7 @@ function RootLayout() {
     }
   }, [colorMode, isMobile]);
 
-  // Handle Vemetric user identification
+  // Handle Insight.info user identification
   useEffect(() => {
     if (isSessionLoading) {
       return;

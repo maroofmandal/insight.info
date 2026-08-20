@@ -48,7 +48,7 @@ const usersOrderBySchema = z
 export const userListItemSchema = z
   .object({
     id: z.string().openapi({
-      description: "Vemetric's internal user ID.",
+      description: "Insight.info's internal user ID.",
       example: '123',
     }),
     identifier: z.string().nullable().openapi({
@@ -80,7 +80,7 @@ export const userListItemSchema = z
     }),
     data: z.record(z.string(), z.any()).openapi({
       description: 'Data attributes collected for this user.',
-      example: { plan: 'pro', company: 'Vemetric' },
+      example: { plan: 'pro', company: 'Insight.info' },
     }),
     anonymous: z.boolean().openapi({
       description: 'Whether the user is anonymous (not identified).',
@@ -94,7 +94,7 @@ export const userListItemSchema = z
 export const userSingleQuerySchema = z
   .object({
     id: z.string().regex(/^\d+$/, 'id must be a numeric user id').optional().openapi({
-      description: "Vemetric's internal user ID. You have to either provide `id` or `identifier`.",
+      description: "Insight.info's internal user ID. You have to either provide `id` or `identifier`.",
       example: '123',
     }),
     identifier: z.string().min(1).optional().openapi({

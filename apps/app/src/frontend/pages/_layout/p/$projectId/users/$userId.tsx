@@ -89,7 +89,7 @@ function Page() {
     </LinkOverlay>,
     isUserLoading ? <Skeleton key="user-name" w="100px" h="20px" rounded="md" /> : userName,
   ]);
-  useSetDocsLink('https://vemetric.com/docs/product-analytics/user-journeys');
+  useSetDocsLink('https://insight.info/docs/product-analytics/user-journeys');
 
   const hasFilters = filterConfig && filterConfig.filters.length > 0;
   const serializedFilters = JSON.stringify(filterConfig);

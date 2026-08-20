@@ -17,19 +17,19 @@ export const InstallationCard = () => {
       </Card.Header>
       <Card.Body p={4} pb={3}>
         <Text mb={3} opacity={0.9}>
-          We&apos;ve prepared the following guides to help you integrate Vemetric:
+          We&apos;ve prepared the following guides to help you integrate Insight.info:
         </Text>
         <IntegrationGuides />
         <Text opacity={0.85} mt={4} fontSize="sm" pl="1">
           Checkout the{' '}
-          <Link color="purple.fg" fontWeight="medium" href="https://vemetric.com/docs/installation">
+          <Link color="purple.fg" fontWeight="medium" href="https://insight.info/docs/installation">
             installation docs
           </Link>{' '}
           for more information.
         </Text>
         <Text opacity={0.85} mt={1.5} fontSize="sm" pl="1">
           Hint: we recommend{' '}
-          <Link color="purple.fg" fontWeight="medium" href="https://vemetric.com/docs/advanced-guides/using-a-proxy">
+          <Link color="purple.fg" fontWeight="medium" href="https://insight.info/docs/advanced/using-a-proxy">
             using a proxy
           </Link>{' '}
           to send events via your own domain.

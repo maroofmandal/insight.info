@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+interface Props { title: string; description: string; active?: string; }
+const { title, description, active } = Astro.props;
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+const grouped = Object.groupBy(docs, (entry) => entry.data.category);
+---
+<BaseLayout title={`${title} · Documentation`} description={description}>
+  <div class="docs-layout shell">
+    <aside class="docs-nav" aria-label="Documentation navigation">
+      <a class="docs-home" href="/docs">Documentation</a>
+      {Object.entries(grouped).map(([category, entries]) => <section><strong>{category}</strong>{entries?.map((entry) => { const slug = entry.id.replace(/\.md$/, ''); return <a class:list={{ active: slug === active }} href={`/docs/${slug}`}>{entry.data.title}</a>; })}</section>)}
+    </aside>
+    <article class="docs-main"><header><h1>{title}</h1><p class="lede">{description}</p></header><div class="prose"><slot /></div></article>
+  </div>
+</BaseLayout>
+<style>.docs-layout{display:grid;grid-template-columns:260px minmax(0,780px);gap:70px;align-items:start;padding:65px 0 120px}.docs-nav{position:sticky;top:100px;max-height:calc(100vh - 120px);overflow:auto;padding-right:15px}.docs-home{display:block;font-size:20px;font-weight:800;margin-bottom:28px}.docs-nav section{display:grid;margin-bottom:25px}.docs-nav strong{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:7px}.docs-nav section a{padding:6px 10px;border-radius:7px;font-size:14px;color:#524b5d}.docs-nav section a:hover,.docs-nav section a.active{background:var(--purple-soft);color:var(--purple-dark)}.docs-main header{padding-bottom:40px;border-bottom:1px solid var(--line);margin-bottom:40px}.docs-main h1{font-size:clamp(40px,5vw,62px);margin-bottom:18px}.docs-main .lede{margin:0}@media(max-width:850px){.docs-layout{grid-template-columns:1fr;gap:30px;padding-top:35px}.docs-nav{position:static;max-height:none;display:none}}</style>

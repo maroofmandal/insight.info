@@ -17,7 +17,7 @@ export const Route = createFileRoute('/_auth/reset-password')({
   validateSearch: zodValidator(resetPasswordSchema),
   beforeLoad: ({ search }) => {
     if (!search.token) {
-      throw redirect({ to: '/', replace: true });
+      throw redirect({ to: '/app', replace: true });
     }
   },
   component: Page,

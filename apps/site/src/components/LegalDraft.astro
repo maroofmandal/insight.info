@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND, isLegalConfigPublishable } from '@vemetric/common/brand';
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+const legal = {
+  status: process.env.INSIGHT_LEGAL_STATUS === 'published' ? 'published' : 'draft',
+  legalEntityName: process.env.INSIGHT_LEGAL_ENTITY_NAME,
+  registeredAddress: process.env.INSIGHT_LEGAL_REGISTERED_ADDRESS,
+  jurisdiction: process.env.INSIGHT_LEGAL_JURISDICTION,
+  effectiveDate: process.env.INSIGHT_LEGAL_EFFECTIVE_DATE,
+  contactEmail: process.env.INSIGHT_LEGAL_CONTACT_EMAIL || BRAND.contactEmail,
+} as const;
+const publishable = isLegalConfigPublishable(legal);
+---
+<BaseLayout title={title} description={description} noindex={!publishable}><article class="prose-shell"><header><span class="eyebrow">{publishable ? 'Legal' : 'Draft · not legally effective'}</span><h1>{title}</h1><p class="lede">{description}</p>{!publishable && <aside role="status"><strong>Draft document</strong><p>This page is intentionally marked <code>noindex</code>. It cannot be published until the legal entity, registered address, jurisdiction, effective date and publication status are configured.</p></aside>}</header><div class="prose"><slot /><h2>Contact</h2><p>Questions about this draft can be sent to <a href={`mailto:${legal.contactEmail}`}>{legal.contactEmail}</a>.</p>{publishable && <p><strong>Effective date:</strong> {legal.effectiveDate}</p>}</div></article></BaseLayout>
+<style>aside{margin-top:30px;padding:18px 22px;border:1px solid #e7c96a;border-radius:12px;background:#fff9e6;text-align:left}aside p{margin:5px 0;color:#6b5a20}</style>

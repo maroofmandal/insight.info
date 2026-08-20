@@ -125,7 +125,7 @@ export const ProjectApiTab = ({ projectId }: Props) => {
             </CardIcon>
             <Text fontWeight="semibold">Create new API Key</Text>
             <Box flexGrow={1} />
-            <DocsButton href="https://vemetric.com/docs/api" text="API Docs" />
+            <DocsButton href="https://insight.info/docs/api/getting-started" text="API Docs" />
           </Flex>
         </Card.Header>
         <Card.Body as="form" onSubmit={onCreateKey}>

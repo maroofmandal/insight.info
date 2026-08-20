@@ -1,0 +1,8 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+const posts = (await getCollection('blog')).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title="Blog" description="Practical product analytics notes from Insight.info."><PageHero eyebrow="Insight.info blog" title="Notes for building with better signals" description="Original writing about useful measurement, privacy-minded implementation and product decisions." /><section class="shell posts">{posts.map((post) => <a class="card" href={`/blog/${post.id.replace(/\.md$/, '')}`}><time>{post.data.publishedAt.toLocaleDateString('en', { dateStyle: 'long' })}</time><h2>{post.data.title}</h2><p>{post.data.description}</p><span>Read article →</span></a>)}</section></BaseLayout>
+<style>.posts{max-width:900px;padding-bottom:120px}.posts a{display:block;padding:42px}.posts time{color:var(--muted);font-size:14px}.posts h2{font-size:36px;margin:18px 0}.posts p{color:var(--muted);font-size:18px}.posts span{color:var(--purple-dark);font-weight:800}</style>

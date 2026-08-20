@@ -1,23 +1,12 @@
 import { Box, Button, Icon } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { TbBrandDiscord, TbBrandGithub } from 'react-icons/tb';
+import { TbBrandGithub, TbMail } from 'react-icons/tb';
 
 export const SocialButtons = () => {
   const { data } = useQuery({
     queryKey: ['github-stars'],
     queryFn: async () => {
       const response = await fetch('https://api.github.com/repos/vemetric/vemetric');
-      if (!response.ok) {
-        throw new Error('Failed to fetch social stats');
-      }
-      return response.json();
-    },
-  });
-
-  const { data: discordData } = useQuery({
-    queryKey: ['discord-members'],
-    queryFn: async () => {
-      const response = await fetch('https://discord.com/api/v9/invites/8kwPRwAQkf?with_counts=true');
       if (!response.ok) {
         throw new Error('Failed to fetch social stats');
       }
@@ -38,8 +27,8 @@ export const SocialButtons = () => {
         px="1"
         variant="surface"
       >
-        <a href="https://vemetric.com/discord" target="_blank" rel="noopener noreferrer">
-          <Icon as={TbBrandDiscord} transition="all .3s ease-in-out" _groupHover={{ transform: 'rotate(-20deg)' }} />
+        <a href="mailto:info@insight.info">
+          <Icon as={TbMail} transition="all .3s ease-in-out" _groupHover={{ transform: 'rotate(-20deg)' }} />
           <Box
             overflow="hidden"
             textAlign="right"
@@ -49,7 +38,7 @@ export const SocialButtons = () => {
             _groupHover={{ w: '78px', opacity: '1' }}
             transition="all .3s ease-in-out"
           >
-            {discordData?.approximate_member_count ?? 100} Members
+            Contact
           </Box>
         </a>
       </Button>

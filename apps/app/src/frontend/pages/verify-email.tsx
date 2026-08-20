@@ -65,7 +65,7 @@ function VerifyEmailPage() {
       return;
     }
 
-    navigate({ to: '/' });
+    navigate({ to: '/app' });
   };
 
   const sendCode = async () => {
@@ -74,7 +74,7 @@ function VerifyEmailPage() {
     setIsSendingCode(true);
     const result = await authClient.sendVerificationEmail({
       email: trimmedEmail,
-      callbackURL: getAppUrl() + '/',
+      callbackURL: getAppUrl() + '/app',
     });
     setIsSendingCode(false);
 

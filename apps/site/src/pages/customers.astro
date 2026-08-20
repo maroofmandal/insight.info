@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+const cases = [['Independent products','See acquisition and activation together without maintaining a full data team.'],['SaaS teams','Connect visits, signups, feature use and conversion in one user journey.'],['Agencies','Give each client a focused project and a shareable public snapshot when appropriate.'],['Open-source teams','Self-host an AGPL foundation or use a compatible hosted Insight.info deployment.']];
+---
+<BaseLayout title="Use cases" description="Teams and products Insight.info is designed to support."><PageHero eyebrow="Use cases" title="Made for teams that need answers, not analytics theater." description="We are not importing upstream customer logos or endorsements. These are the practical situations Insight.info is designed to support." /><section class="shell cases">{cases.map(([name, text], index) => <article class="card"><span>0{index + 1}</span><h2>{name}</h2><p>{text}</p><a href="/docs/installation">See installation →</a></article>)}</section></BaseLayout>
+<style>.cases{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding-bottom:110px}.cases article{padding:38px}.cases span{color:var(--purple);font-weight:800}.cases h2{font-size:31px;margin:35px 0 15px}.cases p{color:var(--muted);font-size:17px}.cases a{color:var(--purple-dark);font-weight:700}@media(max-width:700px){.cases{grid-template-columns:1fr}}</style>

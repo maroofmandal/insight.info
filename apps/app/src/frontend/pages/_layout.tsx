@@ -94,7 +94,7 @@ function LayoutComponent() {
       shownPastDueToast = true;
       toaster.create({
         title: 'Payment failed',
-        description: 'Please make sure your payment method is up to date to continue using Vemetric.',
+        description: 'Please make sure your payment method is up to date to continue using Insight.info.',
         duration: 9999999,
         type: 'warning',
         id: 'subscription-past-due',

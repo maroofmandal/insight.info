@@ -44,7 +44,7 @@ export const EmailAuthCard = ({ email: initialEmail, hasPassword, onUpdate }: Em
     setIsEmailLoading(true);
     const result = await authClient.changeEmail({
       newEmail: email,
-      callbackURL: getAppUrl() + '/?changeEmail=true',
+      callbackURL: getAppUrl() + '/app?changeEmail=true',
     });
     setIsEmailLoading(false);
 

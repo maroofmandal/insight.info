@@ -41,12 +41,12 @@ interface Props {
 }
 
 export const MostVisitedPagesCard = ({ filterConfig, projectDomain, publicDashboard }: Props) => {
-  const params = useParams({ from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/' });
+  const params = useParams({ from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/' });
   const { timespan, startDate, endDate } = useTimespanParam({
-    from: publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/',
+    from: publicDashboard ? '/$domain' : '/_layout/p/$projectId/',
   });
   const [page, setPage] = useState(1);
-  const { toggleFilter } = useFilters({ from: publicDashboard ? '/public/$domain' : '/p/$projectId' });
+  const { toggleFilter } = useFilters({ from: publicDashboard ? '/$domain' : '/p/$projectId' });
 
   const activeFilters = filterConfig?.filters.filter((f) => f.type === 'page') ?? [];
 

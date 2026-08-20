@@ -74,5 +74,5 @@ function ConfirmProjectDeletionPage() {
     }
   }, [success, error, domain, hasShownToast]);
 
-  return <Navigate to="/" />;
+  return <Navigate to="/app" />;
 }

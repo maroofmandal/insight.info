@@ -73,7 +73,7 @@ const EmailNotificationsSection = ({ receiveEmailTips }: EmailNotificationsSecti
               <Box>
                 <Text fontWeight="medium">Tips & Best Practices</Text>
                 <Text fontSize="sm" color="fg.muted" maxW="350px">
-                  Receive occasional emails with tips on how to get the most out of Vemetric
+                  Receive occasional emails with tips on how to get the most out of Insight.info
                 </Text>
               </Box>
             </Flex>

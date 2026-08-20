@@ -1,4 +1,4 @@
-# Vemetric Public API - Stats Query Endpoint Plan
+# Insight.info Public API - Stats Query Endpoint Plan
 
 ## Overview
 
@@ -28,7 +28,7 @@ API keys are project-scoped for v1. Project is resolved from API key.
 ## Base URL
 
 ```
-https://api.vemetric.com/v1
+https://insight.info/api/v1
 ```
 
 ---

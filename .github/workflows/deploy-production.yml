@@ -1,0 +1,44 @@
+name: Deploy Production
+
+on:
+  workflow_run:
+    workflows: ['PR Checks']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: insight-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Configure SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/insight-deploy
+          chmod 600 ~/.ssh/insight-deploy
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Fast-forward production checkout
+        run: |
+          ssh -i ~/.ssh/insight-deploy ubuntu@155.248.246.43 \
+            "sudo -iu insight bash -lc 'cd ~/htdocs/insight.info && git fetch origin main && git checkout main && git pull --ff-only origin main'"
+
+      - name: Deploy and verify services
+        run: |
+          ssh -i ~/.ssh/insight-deploy ubuntu@155.248.246.43 \
+            'sudo /home/insight/htdocs/insight.info/scripts/deploy-production.sh'

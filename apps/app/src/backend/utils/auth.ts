@@ -14,6 +14,10 @@ import { vemetric } from './vemetric-client';
 
 export const TRUSTED_ORIGINS = [getVemetricUrl('app'), getVemetricUrl()];
 const isLocalhost = getBaseDomain().includes('localhost');
+const hasTransactionalEmail = Boolean(
+  process.env.POSTMARK_SERVER_API_TOKEN && process.env.POSTMARK_SERVER_API_TOKEN !== 'PLACEHOLDER',
+);
+const requiresEmailVerification = !isLocalhost && hasTransactionalEmail;
 
 const options = {
   basePath: '/_api/auth',
@@ -52,13 +56,13 @@ const options = {
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
-    requireEmailVerification: isLocalhost ? false : true,
+    requireEmailVerification: requiresEmailVerification,
     sendResetPassword: async ({ user, url }) => {
       await sendPasswordResetLink(user.email, user.name, url);
     },
   },
   emailVerification: {
-    sendOnSignUp: true,
+    sendOnSignUp: requiresEmailVerification,
     sendOnSignIn: false,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url }) => {
@@ -92,6 +96,8 @@ const options = {
     account: {
       create: {
         after: async (account) => {
+          if (isLocalhost) return;
+
           await vemetric.trackEvent('Signup', {
             userIdentifier: account.userId,
             eventData: { provider: account.providerId === 'credential' ? 'email' : account.providerId },
@@ -101,7 +107,7 @@ const options = {
     },
   },
   onAPIError: {
-    errorURL: getVemetricUrl('app'),
+    errorURL: `${getVemetricUrl('app')}/app`,
   },
   plugins: [
     lastLoginMethod(),

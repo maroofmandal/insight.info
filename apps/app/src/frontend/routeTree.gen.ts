@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as VerifyEmailRouteImport } from './pages/verify-email'
 import { Route as RedirectRouteImport } from './pages/redirect'
 import { Route as BillingRouteImport } from './pages/billing'
+import { Route as AppRouteImport } from './pages/app'
 import { Route as LayoutRouteImport } from './pages/_layout'
 import { Route as AuthRouteImport } from './pages/_auth'
+import { Route as DomainRouteImport } from './pages/$domain'
 import { Route as IndexRouteImport } from './pages/index'
 import { Route as PublicDomainRouteImport } from './pages/public/$domain'
 import { Route as OnboardingWaitingRouteImport } from './pages/onboarding/waiting'
@@ -52,12 +54,22 @@ const BillingRoute = BillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DomainRoute = DomainRouteImport.update({
+  id: '/$domain',
+  path: '/$domain',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -181,6 +193,8 @@ const LayoutPProjectIdFunnelsFunnelIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$domain': typeof DomainRoute
+  '/app': typeof AppRoute
   '/billing': typeof BillingRoute
   '/redirect': typeof RedirectRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -208,6 +222,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/$domain': typeof DomainRoute
+  '/app': typeof AppRoute
   '/billing': typeof BillingRoute
   '/redirect': typeof RedirectRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -235,8 +251,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$domain': typeof DomainRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_layout': typeof LayoutRouteWithChildren
+  '/app': typeof AppRoute
   '/billing': typeof BillingRoute
   '/redirect': typeof RedirectRoute
   '/verify-email': typeof VerifyEmailRoute
@@ -266,6 +284,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$domain'
+    | '/app'
     | '/billing'
     | '/redirect'
     | '/verify-email'
@@ -293,6 +313,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/$domain'
+    | '/app'
     | '/billing'
     | '/redirect'
     | '/verify-email'
@@ -319,8 +341,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/$domain'
     | '/_auth'
     | '/_layout'
+    | '/app'
     | '/billing'
     | '/redirect'
     | '/verify-email'
@@ -349,8 +373,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DomainRoute: typeof DomainRoute
   AuthRoute: typeof AuthRouteWithChildren
   LayoutRoute: typeof LayoutRouteWithChildren
+  AppRoute: typeof AppRoute
   BillingRoute: typeof BillingRoute
   RedirectRoute: typeof RedirectRoute
   VerifyEmailRoute: typeof VerifyEmailRoute
@@ -388,6 +414,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BillingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_layout': {
       id: '/_layout'
       path: ''
@@ -400,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$domain': {
+      id: '/$domain'
+      path: '/$domain'
+      fullPath: '/$domain'
+      preLoaderRoute: typeof DomainRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -611,8 +651,10 @@ const LayoutRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DomainRoute: DomainRoute,
   AuthRoute: AuthRouteWithChildren,
   LayoutRoute: LayoutRouteWithChildren,
+  AppRoute: AppRoute,
   BillingRoute: BillingRoute,
   RedirectRoute: RedirectRoute,
   VerifyEmailRoute: VerifyEmailRoute,

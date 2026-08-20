@@ -85,7 +85,7 @@ function InvitePage() {
               />
               <Flex justify="center" mt={4} mb={2}>
                 <Button asChild>
-                  <RouterLink to="/">Go to Dashboard</RouterLink>
+                  <RouterLink to="/app">Go to Dashboard</RouterLink>
                 </Button>
               </Flex>
             </Card.Body>
@@ -131,7 +131,7 @@ function InvitePage() {
                       Accept Invitation
                     </Button>
                     <Button asChild variant="outline">
-                      <RouterLink to="/">Go to Dashboard</RouterLink>
+                      <RouterLink to="/app">Go to Dashboard</RouterLink>
                     </Button>
                     <Flex align="center" gap={2} justify="center" flexWrap="wrap" mt={2} color="fg.muted">
                       <Text fontSize="sm" flexShrink="0">

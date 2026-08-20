@@ -16,7 +16,7 @@ function RouteComponent() {
       redirectPath.clear();
       navigate({ to: redirect });
     } else {
-      navigate({ to: '/' });
+      navigate({ to: '/app' });
     }
   }, [navigate]);
 

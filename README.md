@@ -1,63 +1,59 @@
-<a href="https://vemetric.com">
-  <img width="1200" height="627" alt="Vemetric is a simple, yet powerful Web- and Product Analytics platform." src="https://github.com/user-attachments/assets/febb1b36-58b4-459f-8004-d94352882476" />
-</a>
+# Insight.info
 
-<h3 align="center">Vemetric</h3>
-<p align="center">
-  Simple, yet powerful Web- & Product Analytics.
-  <br />
-  <br />
-  <a href="https://vemetric.com">Website</a>
-  ·
-  <a href="https://vemetric.com/docs">Documentation</a>
-</p>
+Insight.info is an open-source web and product analytics platform for understanding acquisition, activity, users, journeys and funnels in one workspace.
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](LICENSE.md)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-[![Status](https://img.shields.io/endpoint?url=https%3A%2F%2Fstatus.vemetric.com%2Fshield-badges%2Fstatus.json&style=flat)](https://status.vemetric.com)
+The product is a fork of the AGPL-licensed [Vemetric project](https://github.com/vemetric/vemetric). It preserves the upstream license and attribution while adding an original Insight.info identity, a single-origin marketing and documentation site, and readable public dashboards.
 
-## About
+## Public dashboard URLs
 
-Vemetric is an open-source web and product analytics platform that helps you understand your users' behavior. It's designed to be simple yet powerful, providing insights into how users interact with your website or product.
+A public project for `outbid.lol` is available at:
 
-## Features
+```text
+https://insight.info/outbid.lol?t=24hrs
+```
 
-- Real-time analytics
-- Behavior tracking via User Journeys
-- Custom event tracking
-- Powerful filtering mechanisms to see how your users interact with your Product & Website
-- Tracking across several subdomains
+The legacy `/public/outbid.lol` route redirects to the new URL and preserves supported search parameters.
 
-## Contributing
+## Development
 
-We love your input! Doesn't matter if you want to report a bug, fix an issue, or even contribute a new feature.
+Requirements: [Bun](https://bun.sh), Docker and Docker Compose.
 
-Before contributing, please read our [Contribution Guide](CONTRIBUTING.md).
+```bash
+bun install
+cp .env.example .env
+docker compose up -d
+bun turbo run db:generate --filter=database
+bun dev
+```
 
-## Self hosting
+The local defaults are:
 
-We're planning on supporting self hostable options of Vemetric in the future as a so called "Community Edition". It's still very early and we're currently focused on higher prioritized tasks.
+- Marketing site: `http://insight.localhost:4050`
+- Application and backend: `http://app.insight.localhost:4050`
+- Event hub: `http://hub.insight.localhost:4050`
 
-We aren't sure yet which features will be available in the Community Edition, but it will definitely cover Web Analytics (everything you get in the [Dashboard](https://vemetric.com/docs/dashboard)), as well as [User Journeys](https://vemetric.com/docs/product-analytics/user-journeys).
+Production is designed to serve the marketing site, documentation and analytics application from `https://insight.info`; event ingestion remains configurable and defaults to `https://hub.insight.info`.
 
-## FAQs
+## SDK compatibility
 
-Please check out the [FAQs](https://vemetric.com/docs/frequently-asked-questions) on the Vemetric Docs.
+Published package names such as `@vemetric/web`, `@vemetric/react` and `@vemetric/node` remain unchanged. Point compatible clients at the Insight event hub where the SDK exposes a host or API URL setting. See the in-repository documentation under `apps/site/src/content/docs`.
 
-## License
+## Commands
 
-Vemetric is licensed under the [AGPLv3 License](LICENSE.md). That means, Vemetric's code is free to use, even commercially.
+```bash
+bun lint
+bun run tsc
+bun run test
+bun run build
+bun run e2e
+```
 
-If you incorporate any portion of Vemetric into software that you distribute or make available as a network service, you must:
+## Configuration
 
-1. release the entire derivative work under AGPL-3.0, and
-2. provide the complete corresponding source code to every user who can access the service.
+New settings use `INSIGHT_*`. Where a compatibility alias exists, precedence is `INSIGHT_*`, then the legacy Vemetric variable, then the documented derived default. See [.env.example](.env.example).
 
-## Security
+Legal pages remain visible drafts with `noindex` until the legal entity, address, jurisdiction, effective date and publication status are configured.
 
-Make sure to check out our [Security Policy](SECURITY.md).
+## License and attribution
 
-## Support
-
-- [Documentation](https://vemetric.com/docs)
-- [GitHub Issues](https://github.com/vemetric/vemetric/issues)
+Insight.info is licensed under the [GNU Affero General Public License v3](LICENSE.md), matching the upstream project. Copyright notices and Git history are retained. Vemetric is the upstream project name and is referenced where required for license attribution, SDK compatibility and separate compatible services.

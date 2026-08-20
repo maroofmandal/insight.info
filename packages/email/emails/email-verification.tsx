@@ -21,9 +21,9 @@ const codeStyle = {
 
 export const EmailVerificationMail = ({ verificationLink, verificationCode }: Props) => {
   return (
-    <BaseTemplate previewText="Hey, thanks for signing up for Vemetric!">
+    <BaseTemplate previewText="Hey, thanks for signing up for Insight.info!">
       <Section>
-        <Text style={textStyle}>Hey, thanks for signing up for Vemetric!</Text>
+        <Text style={textStyle}>Hey, thanks for signing up for Insight.info!</Text>
         <Text style={textStyle}>Please verify your email address with this 6-digit code:</Text>
         <Text style={codeStyle}>{verificationCode ?? '------'}</Text>
         <Text style={textStyle}>
@@ -43,7 +43,7 @@ export const EmailVerificationMail = ({ verificationLink, verificationCode }: Pr
 };
 
 EmailVerificationMail.PreviewProps = {
-  verificationLink: 'https://vemetric.com',
+  verificationLink: 'https://insight.info',
   verificationCode: '123456',
 } as Props;
 

@@ -95,7 +95,7 @@ export const CreateProjectDialog = ({
                   content={
                     <>
                       <Text>
-                        Vemetric supports tracking across subdomains. (e.g. your landing page is on example.com, and
+                        Insight.info supports tracking across subdomains. (e.g. your landing page is on example.com, and
                         your app is on dashboard.example.com)
                       </Text>
                       <Text mt={2}>Therefore we&apos;d suggest to use the root domain for your project.</Text>

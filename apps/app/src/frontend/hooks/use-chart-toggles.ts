@@ -17,7 +17,7 @@ const isDefaultChartToggles = (toggles: ChartCategoryKey[]) => {
 };
 
 export const useChartToggles = ({ publicDashboard }: Props) => {
-  const route = getRouteApi(publicDashboard ? '/public/$domain' : '/_layout/p/$projectId/');
+  const route = getRouteApi(publicDashboard ? '/$domain' : '/_layout/p/$projectId/');
   const navigate = route.useNavigate();
   const { ch: chartToggles } = route.useSearch() as { ch?: ChartCategoryKey[] };
 
@@ -38,7 +38,7 @@ export const useChartToggles = ({ publicDashboard }: Props) => {
     }
 
     navigate({
-      from: publicDashboard ? '/public/$domain' : '/p/$projectId',
+      from: publicDashboard ? '/$domain' : '/p/$projectId',
       search: (prev) => ({
         ...prev,
         ch: isDefaultChartToggles(newToggles) ? undefined : newToggles,

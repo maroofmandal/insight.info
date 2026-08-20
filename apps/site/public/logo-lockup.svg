@@ -1,0 +1,6 @@
+<svg width="850" height="256" viewBox="0 0 850 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="insight-gradient" x1="42" y1="35" x2="216" y2="224" gradientUnits="userSpaceOnUse"><stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs>
+  <path d="M21 128C52 76 91 48 128 48s76 28 107 80c-31 52-70 80-107 80S52 180 21 128Z" fill="url(#insight-gradient)"/>
+  <circle cx="128" cy="128" r="52" fill="white"/><circle cx="128" cy="94" r="10" fill="#7c3aed"/><rect x="117" y="113" width="22" height="58" rx="11" fill="#7c3aed"/>
+  <text x="278" y="166" fill="#17131f" font-family="Inter,Arial,sans-serif" font-size="112" font-weight="700" letter-spacing="-6">Insight<tspan fill="#7c3aed">.info</tspan></text>
+</svg>
