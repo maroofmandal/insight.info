@@ -24,9 +24,9 @@ test.describe('Insight.info marketing site', () => {
     await expect(page.locator('[data-event-label]')).toHaveText('250,000');
     await expect(page.locator('[data-price]')).toHaveText('25');
 
-    const faq = page.getByText('Is Insight.info open source?');
+    const faq = page.getByText('Can I start for free?');
     await faq.click();
-    await expect(faq.locator('..').getByText(/AGPL-licensed Vemetric project/)).toBeVisible();
+    await expect(faq.locator('..').getByText(/no credit card required/i)).toBeVisible();
 
     await expect(page.locator('.hero').getByRole('link', { name: 'Start for free' })).toHaveAttribute(
       'href',
