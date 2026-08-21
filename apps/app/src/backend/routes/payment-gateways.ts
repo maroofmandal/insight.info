@@ -1,24 +1,45 @@
+import { TRPCError } from '@trpc/server';
 import { dbPaymentGateway } from 'database';
 import { z } from 'zod';
 import { encryptGatewayCredentials } from '../utils/gateway-credentials';
-import { getPaymentGatewayEnvironment } from '../utils/payment-gateway';
-import { syncPolarCatalog } from '../utils/polar';
+import { getPaymentGatewayEnvironment, getPolarSetupErrorMessage } from '../utils/payment-gateway';
+import { syncPolarCatalog, validatePolarAccessToken } from '../utils/polar';
 import { platformAdminProcedure, router } from '../utils/trpc';
 
+const paymentGatewayEnvironmentSchema = z.enum(['SANDBOX', 'PRODUCTION']);
+
 export const paymentGatewaysRouter = router({
-  list: platformAdminProcedure.query(async () => {
-    const gateways = await dbPaymentGateway.list(getPaymentGatewayEnvironment());
-    return gateways.map(({ encryptedCredentials: _credentials, ...gateway }) => ({
-      ...gateway,
-      hasCredentials: Boolean(_credentials),
-    }));
-  }),
+  list: platformAdminProcedure
+    .input(z.object({ environment: paymentGatewayEnvironmentSchema }).optional())
+    .query(async ({ input }) => {
+      const gateways = await dbPaymentGateway.list(input?.environment ?? getPaymentGatewayEnvironment());
+      return gateways.map(({ encryptedCredentials: _credentials, ...gateway }) => ({
+        ...gateway,
+        hasCredentials: Boolean(_credentials),
+      }));
+    }),
   savePolar: platformAdminProcedure
-    .input(z.object({ accessToken: z.string().min(1).optional(), enabled: z.boolean(), webhookUrl: z.string().url().optional() }))
+    .input(
+      z.object({
+        accessToken: z.string().trim().min(1).optional(),
+        enabled: z.boolean(),
+        environment: paymentGatewayEnvironmentSchema,
+        webhookUrl: z.string().url().optional(),
+      }),
+    )
     .mutation(async ({ input }) => {
-      const environment = getPaymentGatewayEnvironment();
+      const environment = input.environment;
       const existing = await dbPaymentGateway.findByProvider('POLAR', environment);
       if (!existing && !input.accessToken) throw new Error('An access token is required for initial setup');
+
+      if (input.accessToken) {
+        try {
+          await validatePolarAccessToken(input.accessToken, environment);
+        } catch (error) {
+          throw new TRPCError({ code: 'BAD_REQUEST', message: getPolarSetupErrorMessage(error, environment) });
+        }
+      }
+
       const gateway = await dbPaymentGateway.upsert({
         provider: 'POLAR',
         environment,
@@ -29,7 +50,12 @@ export const paymentGatewaysRouter = router({
         enabled: false,
         configuration: existing?.configuration ?? {},
       });
-      const result = await syncPolarCatalog(gateway.id, input.webhookUrl);
+      let result;
+      try {
+        result = await syncPolarCatalog(gateway.id, input.webhookUrl);
+      } catch (error) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: getPolarSetupErrorMessage(error, environment) });
+      }
       await dbPaymentGateway.update(gateway.id, { enabled: input.enabled });
       return result;
     }),

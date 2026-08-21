@@ -18,12 +18,19 @@ export const createPolarClient = (encryptedCredentials: string, environment: Pay
   const credentials = decryptGatewayCredentials(encryptedCredentials, polarCredentialsSchema);
   return {
     credentials,
-    client: new Polar({
-      accessToken: credentials.accessToken,
-      server: environment === 'SANDBOX' ? 'sandbox' : 'production',
-    }),
+    client: createPolarClientFromToken(credentials.accessToken, environment),
   };
 };
+
+export const createPolarClientFromToken = (accessToken: string, environment: PaymentGatewayEnvironment) =>
+  new Polar({
+    accessToken,
+    server: environment === 'SANDBOX' ? 'sandbox' : 'production',
+  });
+
+export async function validatePolarAccessToken(accessToken: string, environment: PaymentGatewayEnvironment) {
+  await createPolarClientFromToken(accessToken, environment).products.list({ limit: 1 });
+}
 
 const productName = (events: number, interval: BillingInterval) =>
   `Insight.info ${events.toLocaleString('en-US')} Events - ${interval === 'MONTH' ? 'Monthly' : 'Yearly'}`;

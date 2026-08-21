@@ -3,8 +3,12 @@ import { decryptGatewayCredentials, encryptGatewayCredentials, polarCredentialsS
 
 describe('payment gateway credential encryption', () => {
   const originalSecret = process.env.BETTER_AUTH_SECRET;
-  beforeEach(() => { process.env.BETTER_AUTH_SECRET = 'test-secret-with-at-least-thirty-two-characters'; });
-  afterEach(() => { process.env.BETTER_AUTH_SECRET = originalSecret; });
+  beforeEach(() => {
+    process.env.BETTER_AUTH_SECRET = 'test-secret-with-at-least-thirty-two-characters';
+  });
+  afterEach(() => {
+    process.env.BETTER_AUTH_SECRET = originalSecret;
+  });
 
   it('round trips credentials without storing cleartext', () => {
     const encrypted = encryptGatewayCredentials({ accessToken: 'polar_test_token', webhookSecret: 'whsec_test' });
@@ -17,6 +21,9 @@ describe('payment gateway credential encryption', () => {
 
   it('rejects ciphertext changed after encryption', () => {
     const encrypted = encryptGatewayCredentials({ accessToken: 'polar_test_token' });
-    expect(() => decryptGatewayCredentials(`${encrypted.slice(0, -1)}x`, polarCredentialsSchema)).toThrow();
+    const parts = encrypted.split('.');
+    const tag = parts[2];
+    parts[2] = `${tag.startsWith('A') ? 'B' : 'A'}${tag.slice(1)}`;
+    expect(() => decryptGatewayCredentials(parts.join('.'), polarCredentialsSchema)).toThrow();
   });
 });

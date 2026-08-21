@@ -23,6 +23,7 @@ import { usersRouter } from './routes/users';
 import type { HonoContext, HonoContextVars } from './types';
 import { auth, TRUSTED_ORIGINS } from './utils/auth';
 import { logger } from './utils/backend-logger';
+import { redactSensitiveData } from './utils/redact-sensitive-data';
 import { publicProcedure, router } from './utils/trpc';
 
 export const trpcRouter = router({
@@ -99,7 +100,7 @@ export function createBackendApp() {
       if (context.error instanceof HTTPException && context.error.status >= 400 && context.error.status < 500) {
         return;
       }
-      logger.error({ url, err: context.error, reqContent: content }, 'An error occured');
+      logger.error({ url, err: context.error, reqContent: redactSensitiveData(content) }, 'An error occured');
     }
   });
 
@@ -161,7 +162,7 @@ export function createBackendApp() {
         if (clientErrorCodes.includes(error.code)) {
           return;
         }
-        logger.error({ err: error, path, input }, 'An error occured');
+        logger.error({ err: error, path, input: redactSensitiveData(input) }, 'An error occured');
       },
     }),
   );
