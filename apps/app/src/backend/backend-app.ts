@@ -16,6 +16,7 @@ import { funnelsRouter } from './routes/funnels';
 import { useLandingPageMetrics } from './routes/landing-page';
 import { organizationRouter } from './routes/organization';
 import { paddleWebhookHandler } from './routes/paddle';
+import { paymentGatewaysRouter } from './routes/payment-gateways';
 import { projectsRouter } from './routes/projects';
 import { savedFiltersRouter } from './routes/saved-filters';
 import { usersRouter } from './routes/users';
@@ -35,6 +36,7 @@ export const trpcRouter = router({
   savedFilters: savedFiltersRouter,
   organization: organizationRouter,
   billing: billingRouter,
+  paymentGateways: paymentGatewaysRouter,
   users: usersRouter,
 
   up: publicProcedure.query(() => {}),

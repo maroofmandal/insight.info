@@ -7,8 +7,30 @@ import { PUBLIC_PRICING } from '@vemetric/common/pricing';
   <PageHero eyebrow="Pricing" title="Start small. Scale when your product does." description="Every workspace begins with a useful free allowance. Choose a paid event limit only when you need it." />
   <section class="shell pricing-page">
     <article class="plan card"><span>Free</span><h2>$0</h2><p>{PUBLIC_PRICING.freeEvents.toLocaleString()} events every month</p><ul><li>Web and product analytics</li><li>Events, users and funnels</li><li>Public dashboards</li></ul><a class="button secondary" href="/signup">Start free</a></article>
-    <article class="plan card featured"><span>Pro</span><h2>From ${PUBLIC_PRICING.tiers[0].monthlyPrice}<small>/month</small></h2><p>Choose from {PUBLIC_PRICING.tiers[0].events.toLocaleString()} to {PUBLIC_PRICING.tiers.at(-1)?.events.toLocaleString()} monthly events.</p><ul><li>Everything in Free</li><li>Higher event limits</li><li>Usage and billing controls</li></ul><a class="button" href="/signup">Create workspace</a></article>
+    <article class="plan card featured"><span>Pro</span><h2>From $<span id="starting-price">{PUBLIC_PRICING.tiers[0].monthlyPrice}</span><small id="starting-period">/month</small></h2><p>Choose from {PUBLIC_PRICING.tiers[0].events.toLocaleString()} to {PUBLIC_PRICING.tiers.at(-1)?.events.toLocaleString()} monthly events.</p><ul><li>Everything in Free</li><li>Higher event limits</li><li>Usage and billing controls</li></ul><a class="button" href="/signup">Create workspace</a></article>
   </section>
-  <section class="shell table-wrap"><h2>Monthly event tiers</h2><table><thead><tr><th>Events</th><th>Monthly</th><th>Yearly billing equivalent</th></tr></thead><tbody>{PUBLIC_PRICING.tiers.map((tier) => <tr><td>{tier.events.toLocaleString()}</td><td>${tier.monthlyPrice}</td><td>${tier.monthlyPrice * PUBLIC_PRICING.yearlyMonthsCharged}/year</td></tr>)}</tbody></table><p>Taxes and payment availability depend on the billing configuration shown at checkout.</p></section>
+  <section class="shell table-wrap">
+    <div class="tier-heading"><h2>Event tiers</h2><div class="billing-toggle" role="group" aria-label="Billing period"><button class="active" type="button" data-period="monthly" aria-pressed="true">Monthly</button><button type="button" data-period="yearly" aria-pressed="false">Yearly <span>2 months free</span></button></div></div>
+    <table><thead><tr><th>Monthly events</th><th>Price</th></tr></thead><tbody>{PUBLIC_PRICING.tiers.map((tier) => <tr><td>{tier.events.toLocaleString()}</td><td><strong class="tier-price" data-monthly={tier.monthlyPrice} data-yearly={tier.monthlyPrice * PUBLIC_PRICING.yearlyMonthsCharged}>${tier.monthlyPrice}</strong><span class="tier-period">/month</span></td></tr>)}</tbody></table><p>Yearly billing includes two months free. Taxes and payment availability depend on the billing configuration shown at checkout.</p>
+  </section>
 </BaseLayout>
-<style>.pricing-page{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin-bottom:90px}.plan{padding:42px}.plan>span{color:var(--purple);font-weight:800}.plan h2{margin:14px 0;font-size:48px}.plan h2 small{font-size:15px;color:var(--muted);letter-spacing:0}.plan p{color:var(--muted)}.plan ul{padding-left:20px;margin:28px 0}.plan.featured{border:2px solid #a78bfa;background:linear-gradient(145deg,#fff,#faf7ff)}.table-wrap{max-width:900px;padding-bottom:110px}.table-wrap h2{font-size:36px;margin-bottom:25px}.table-wrap table{width:100%;border-collapse:collapse;background:white;border-radius:15px;overflow:hidden}.table-wrap th,.table-wrap td{padding:16px;text-align:left;border-bottom:1px solid var(--line)}.table-wrap p{color:var(--muted);font-size:13px}@media(max-width:700px){.pricing-page{grid-template-columns:1fr}.table-wrap{overflow-x:auto}}</style>
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-period]');
+  const prices = document.querySelectorAll<HTMLElement>('.tier-price');
+  const periods = document.querySelectorAll<HTMLElement>('.tier-period');
+  const startingPrice = document.querySelector<HTMLElement>('#starting-price');
+  const startingPeriod = document.querySelector<HTMLElement>('#starting-period');
+  buttons.forEach((button) => button.addEventListener('click', () => {
+    const yearly = button.dataset.period === 'yearly';
+    buttons.forEach((candidate) => {
+      const active = candidate === button;
+      candidate.classList.toggle('active', active);
+      candidate.setAttribute('aria-pressed', String(active));
+    });
+    prices.forEach((price) => { price.textContent = `$${yearly ? price.dataset.yearly : price.dataset.monthly}`; });
+    periods.forEach((period) => { period.textContent = yearly ? '/year' : '/month'; });
+    if (startingPrice) startingPrice.textContent = yearly ? prices[0]?.dataset.yearly ?? '' : prices[0]?.dataset.monthly ?? '';
+    if (startingPeriod) startingPeriod.textContent = yearly ? '/year' : '/month';
+  }));
+</script>
+<style>.pricing-page{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin-bottom:90px}.plan{padding:42px}.plan>span{color:var(--purple);font-weight:800}.plan h2{margin:14px 0;font-size:48px}.plan h2 small{font-size:15px;color:var(--muted);letter-spacing:0}.plan p{color:var(--muted)}.plan ul{padding-left:20px;margin:28px 0}.plan.featured{border:2px solid #a78bfa;background:linear-gradient(145deg,#fff,#faf7ff)}.table-wrap{max-width:900px;padding-bottom:110px}.tier-heading{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:25px}.table-wrap h2{font-size:36px;margin:0}.billing-toggle{display:flex;padding:4px;background:#f1ebff;border:1px solid #ddd1ff;border-radius:999px}.billing-toggle button{border:0;background:transparent;padding:9px 14px;border-radius:999px;font:inherit;font-weight:700;cursor:pointer;color:var(--muted)}.billing-toggle button.active{background:white;color:var(--purple);box-shadow:0 2px 8px #5b21b61a}.billing-toggle span{font-size:11px;color:#15803d}.table-wrap table{width:100%;border-collapse:collapse;background:white;border-radius:15px;overflow:hidden}.table-wrap th,.table-wrap td{padding:16px;text-align:left;border-bottom:1px solid var(--line)}.tier-period{color:var(--muted);font-size:14px}.table-wrap p{color:var(--muted);font-size:13px}@media(max-width:700px){.pricing-page{grid-template-columns:1fr}.table-wrap{overflow-x:auto}.tier-heading{align-items:flex-start;flex-direction:column}.billing-toggle{width:max-content}}</style>

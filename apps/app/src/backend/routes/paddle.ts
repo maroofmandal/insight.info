@@ -112,6 +112,7 @@ export const paddleWebhookHandler = async (context: HonoContext) => {
 
       const billingInfo: Omit<BillingInfo, 'createdAt'> = {
         organizationId,
+        paymentProvider: 'PADDLE',
         customerId: entity.data.customerId,
         addressId: entity.data.addressId,
         businessId: entity.data.businessId,
@@ -172,6 +173,7 @@ export const paddleWebhookHandler = async (context: HonoContext) => {
 
       await dbBillingInfo.upsert({
         organizationId,
+        paymentProvider: 'PADDLE',
         customerId: entity.data.customerId,
         addressId: entity.data.addressId,
         businessId: entity.data.businessId,

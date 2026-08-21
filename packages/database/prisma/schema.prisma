@@ -12,6 +12,7 @@ model User {
   email            String   @unique
   emailVerified    Boolean  @default(false)
   receiveEmailTips Boolean  @default(true)
+  isPlatformAdmin  Boolean  @default(false)
   name             String?
   image            String?
   createdAt        DateTime @default(now())
@@ -24,8 +25,8 @@ model User {
   emailDripSequences EmailDripSequence[]
   projectAccess      UserProjectAccess[]
   createdInvitations Invitation[]
-  createdApiKeys     ApiKey[]  @relation("ApiKeyCreatedBy")
-  revokedApiKeys     ApiKey[]  @relation("ApiKeyRevokedBy")
+  createdApiKeys     ApiKey[]            @relation("ApiKeyCreatedBy")
+  revokedApiKeys     ApiKey[]            @relation("ApiKeyRevokedBy")
 
   @@map("user")
 }
@@ -123,21 +124,72 @@ model InvitationProjectAccess {
 }
 
 model BillingInfo {
-  organizationId           String       @id
-  createdAt                DateTime     @default(now())
-  transactionId            String       @db.VarChar
-  customerId               String       @db.VarChar
-  addressId                String       @db.VarChar
-  businessId               String?      @db.VarChar
-  productId                String       @db.VarChar // This is how we can identify on which plan the user is subscribed to
-  priceId                  String       @db.VarChar // This is how we can identify if it is a yearly or monthly plan
-  subscriptionId           String       @db.VarChar
-  subscriptionStatus       String       @db.VarChar
-  subscriptionEndDate      DateTime?    @db.Date
-  subscriptionNextBilledAt DateTime?    @db.Date
-  organization             Organization @relation(fields: [organizationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  organizationId           String                 @id
+  createdAt                DateTime               @default(now())
+  transactionId            String                 @db.VarChar
+  customerId               String                 @db.VarChar
+  addressId                String                 @db.VarChar
+  businessId               String?                @db.VarChar
+  productId                String                 @db.VarChar // This is how we can identify on which plan the user is subscribed to
+  priceId                  String                 @db.VarChar // This is how we can identify if it is a yearly or monthly plan
+  subscriptionId           String                 @db.VarChar
+  subscriptionStatus       String                 @db.VarChar
+  subscriptionEndDate      DateTime?              @db.Date
+  subscriptionNextBilledAt DateTime?              @db.Date
+  paymentProvider          PaymentGatewayProvider @default(PADDLE)
+  organization             Organization           @relation(fields: [organizationId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@map("billing_info")
+}
+
+enum PaymentGatewayProvider {
+  PADDLE
+  POLAR
+}
+
+enum PaymentGatewayEnvironment {
+  SANDBOX
+  PRODUCTION
+}
+
+enum BillingInterval {
+  MONTH
+  YEAR
+}
+
+model PaymentGateway {
+  id                   String                    @id @default(cuid())
+  provider             PaymentGatewayProvider
+  environment          PaymentGatewayEnvironment
+  displayName          String                    @db.VarChar
+  enabled              Boolean                   @default(false)
+  encryptedCredentials String                    @db.Text
+  configuration        Json                      @default("{}")
+  createdAt            DateTime                  @default(now())
+  updatedAt            DateTime                  @updatedAt
+  products             PaymentGatewayProduct[]
+
+  @@unique([provider, environment])
+  @@map("payment_gateway")
+}
+
+model PaymentGatewayProduct {
+  id                String          @id @default(cuid())
+  paymentGatewayId  String
+  tierIndex         Int
+  billingInterval   BillingInterval
+  events            Int
+  priceCents        Int
+  externalProductId String          @db.VarChar
+  externalPriceId   String?         @db.VarChar
+  active            Boolean         @default(true)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  paymentGateway    PaymentGateway  @relation(fields: [paymentGatewayId], references: [id], onDelete: Cascade)
+
+  @@unique([paymentGatewayId, tierIndex, billingInterval])
+  @@unique([paymentGatewayId, externalProductId])
+  @@map("payment_gateway_product")
 }
 
 enum OrganizationRole {

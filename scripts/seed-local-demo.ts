@@ -65,13 +65,14 @@ async function seedApplicationData() {
 
     await prismaClient.user.upsert({
       where: { email: credential.email },
-      update: { name: credential.name, emailVerified: true },
+      update: { name: credential.name, emailVerified: true, isPlatformAdmin: key === 'admin' },
       create: {
         id: userId,
         email: credential.email,
         name: credential.name,
         emailVerified: true,
         receiveEmailTips: false,
+        isPlatformAdmin: key === 'admin',
       },
     });
 

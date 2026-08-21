@@ -2,9 +2,10 @@ import type { MenuTriggerProps } from '@chakra-ui/react';
 import { Center, Flex, Span, Spinner, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { useState } from 'react';
-import { TbLogout, TbSettings } from 'react-icons/tb';
+import { TbCreditCard, TbLogout, TbSettings } from 'react-icons/tb';
 import { useAccountSettingsDialog } from '@/hooks/use-account-settings-dialog';
-import { useLogout } from '@/utils/auth';
+import { authClient, useLogout } from '@/utils/auth';
+import { PaymentGatewayAdminDialog } from './payment-gateway-admin-dialog';
 import { ThemeSwitch } from './theme-switch';
 import { MenuContent, MenuItem, MenuRoot, MenuSeparator, MenuTrigger } from './ui/menu';
 
@@ -16,6 +17,8 @@ export const UserMenu = ({ showThemeSwitch = false, ...props }: Props) => {
   const navigate = useNavigate();
   const { open: openAccountSettings } = useAccountSettingsDialog();
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
+  const [gatewayAdminOpen, setGatewayAdminOpen] = useState(false);
+  const { data: session } = authClient.useSession();
   const { logout } = useLogout();
 
   const handleLogout = async () => {
@@ -27,6 +30,7 @@ export const UserMenu = ({ showThemeSwitch = false, ...props }: Props) => {
   };
 
   return (
+    <>
     <MenuRoot>
       <MenuTrigger {...props} />
       <MenuContent minW="140px">
@@ -44,6 +48,11 @@ export const UserMenu = ({ showThemeSwitch = false, ...props }: Props) => {
             <Text>Settings</Text>
           </Flex>
         </MenuItem>
+        {session?.user.isPlatformAdmin && (
+          <MenuItem value="payment-gateways" py={2} onClick={() => setGatewayAdminOpen(true)}>
+            <Flex align="center" gap={2}><TbCreditCard /><Text>Payment gateways</Text></Flex>
+          </MenuItem>
+        )}
         <MenuItem value="logout" py={2} onClick={handleLogout}>
           <Flex align="center" gap={2} pos="relative">
             <Span opacity={isLogoutLoading ? 0 : 1}>
@@ -59,5 +68,7 @@ export const UserMenu = ({ showThemeSwitch = false, ...props }: Props) => {
         </MenuItem>
       </MenuContent>
     </MenuRoot>
+    {session?.user.isPlatformAdmin && <PaymentGatewayAdminDialog open={gatewayAdminOpen} onOpenChange={setGatewayAdminOpen} />}
+    </>
   );
 };

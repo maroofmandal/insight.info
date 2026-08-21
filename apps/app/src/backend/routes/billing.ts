@@ -1,11 +1,52 @@
 import { TRPCError } from '@trpc/server';
+import { dbPaymentGateway } from 'database';
 import { z } from 'zod';
 import { logger } from '../utils/backend-logger';
 import { paddleApi } from '../utils/paddle';
+import { getPaymentGatewayEnvironment } from '../utils/payment-gateway';
+import { createPolarCheckout, createPolarCustomerPortal } from '../utils/polar';
 import { organizationProcedure, organizationAdminProcedure, router, projectOrPublicProcedure } from '../utils/trpc';
 import { getUsageCycles } from '../utils/usage';
 
 export const billingRouter = router({
+  availableGateways: organizationAdminProcedure.query(async () => {
+    const gateways = await dbPaymentGateway.listEnabled(getPaymentGatewayEnvironment());
+    return gateways.map(({ provider, displayName }) => ({ provider, displayName }));
+  }),
+  createCheckout: organizationAdminProcedure
+    .input(
+      z.object({
+        tierIndex: z.number().int().min(0).max(6),
+        billingInterval: z.enum(['MONTH', 'YEAR']),
+        provider: z.enum(['PADDLE', 'POLAR']).optional(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const gateways = await dbPaymentGateway.listEnabled(getPaymentGatewayEnvironment());
+      if (gateways.length === 0) {
+        throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'No payment gateway is currently available' });
+      }
+      const gateway = gateways.length === 1
+        ? gateways[0]
+        : gateways.find((candidate) => candidate.provider === input.provider);
+      if (!gateway) {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Select a payment gateway' });
+      }
+      if (gateway.provider === 'PADDLE') return { provider: 'PADDLE' as const, url: null };
+
+      const product = await dbPaymentGateway.findProduct(gateway.id, input.tierIndex, input.billingInterval);
+      if (!product?.active) {
+        throw new TRPCError({ code: 'PRECONDITION_FAILED', message: 'The selected plan is not configured' });
+      }
+      const checkout = await createPolarCheckout({
+        encryptedCredentials: gateway.encryptedCredentials,
+        environment: gateway.environment,
+        externalProductId: product.externalProductId,
+        organizationId: ctx.organizationId,
+        email: ctx.user.email,
+      });
+      return { provider: 'POLAR' as const, url: checkout.url };
+    }),
   billingStatus: organizationProcedure.query(async (opts) => {
     const {
       ctx: { organization, billingInfo, subscriptionStatus },
@@ -50,6 +91,16 @@ export const billingRouter = router({
       return null;
     }
 
+    if (billingInfo.paymentProvider === 'POLAR') {
+      const gateway = await dbPaymentGateway.findByProvider('POLAR', getPaymentGatewayEnvironment());
+      if (!gateway) return null;
+      const session = await createPolarCustomerPortal(gateway.encryptedCredentials, gateway.environment, billingInfo.organizationId);
+      return {
+        updatePaymentMethodUrl: session.customerPortalUrl,
+        cancelSubscriptionUrl: session.customerPortalUrl,
+      };
+    }
+
     const subscription = await paddleApi.subscriptions.get(billingInfo.subscriptionId);
 
     return {
@@ -65,6 +116,8 @@ export const billingRouter = router({
     if (!billingInfo) {
       return [];
     }
+
+    if (billingInfo.paymentProvider === 'POLAR') return [];
 
     const billingHistory = await paddleApi.transactions.list({
       customerId: [billingInfo.customerId],
@@ -95,6 +148,10 @@ export const billingRouter = router({
 
       if (!billingInfo) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Billing info not found' });
+      }
+
+      if (billingInfo.paymentProvider !== 'PADDLE') {
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Invoices are available in the Polar customer portal' });
       }
 
       const transaction = await paddleApi.transactions.get(transactionId);

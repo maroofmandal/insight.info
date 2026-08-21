@@ -4,6 +4,7 @@ import { Hono } from 'hono';
 import { API_DOCS_URL, createPublicApi } from './api';
 import { createBackendApp } from './backend-app';
 import { registerIngestionProxyRoutes } from './ingestion-proxy';
+import { polarWebhookHandler } from './routes/polar';
 import { createStaticApp } from './static-app';
 import { logger } from './utils/backend-logger';
 import { isMemoryReportEnabled, memoryTelemetryMiddleware, startMemoryReportSchedule } from './utils/memory-report';
@@ -23,6 +24,9 @@ if (isMemoryReportEnabled()) {
 }
 
 registerIngestionProxyRoutes(app);
+
+// Polar must receive the unmodified body and is authenticated by its webhook signature.
+app.post('/pg/polar', polarWebhookHandler);
 
 const backendApp = createBackendApp();
 app.route('/_api', backendApp);

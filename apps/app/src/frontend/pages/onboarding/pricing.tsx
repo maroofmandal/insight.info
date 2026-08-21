@@ -13,7 +13,7 @@ import { useOpenCrispChat } from '@/stores/crisp-chat-store';
 import { authClient } from '@/utils/auth';
 import { requireOnboardingPricing } from '@/utils/auth-guards';
 import { openPaddleCheckout } from '@/utils/paddle';
-import { PRICING_PLANS } from '@/utils/pricing';
+import { FREE_PLAN_EVENTS, PRICING_PLANS } from '@/utils/pricing';
 import { trpc } from '@/utils/trpc';
 
 const PricingCard = (props: CardRootProps) => {
@@ -40,7 +40,35 @@ function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [sliderValue, setSliderValue] = useState(0);
   const [isYearly, setIsYearly] = useState(false);
+  const [showGatewayChoices, setShowGatewayChoices] = useState(false);
   const pricingPlan = PRICING_PLANS[sliderValue];
+  const { data: availableGateways = [] } = trpc.billing.availableGateways.useQuery({ organizationId: orgId });
+  const { mutateAsync: createCheckout, isLoading: isCreatingCheckout } = trpc.billing.createCheckout.useMutation({
+    onError: (error) => toaster.error({ title: 'Checkout could not be started', description: error.message }),
+  });
+
+  const startCheckout = async (provider?: 'PADDLE' | 'POLAR') => {
+    if (availableGateways.length > 1 && !provider) {
+      setShowGatewayChoices(true);
+      return;
+    }
+    const checkout = await createCheckout({
+      organizationId: orgId,
+      tierIndex: sliderValue,
+      billingInterval: isYearly ? 'YEAR' : 'MONTH',
+      provider,
+    });
+    if (checkout.provider === 'POLAR' && checkout.url) {
+      window.location.assign(checkout.url);
+      return;
+    }
+    openPaddleCheckout({
+      organizationId: orgId,
+      email: session?.user.email ?? '',
+      pricingPlan,
+      isYearly,
+    });
+  };
 
   const { mutate } = trpc.organization.pricingOnboarding.useMutation({
     onMutate: () => {
@@ -79,7 +107,7 @@ function Page() {
               <Flex justify="space-between" align="center" wrap="wrap" gap={2}>
                 <Box lineHeight="1.25">
                   <Text fontSize="3xl" fontWeight="medium">
-                    {(2500).toLocaleString()}
+                    {FREE_PLAN_EVENTS.toLocaleString()}
                   </Text>
                   <Text fontSize="xl" color="fg.muted">
                     <Tooltip content="Pageviews + Custom Events">
@@ -155,15 +183,8 @@ function Page() {
                   borderRadius="lg"
                   width="full"
                   colorPalette="purple"
-                  loading={isLoading}
-                  onClick={() => {
-                    openPaddleCheckout({
-                      organizationId: orgId,
-                      email: session?.user.email ?? '',
-                      pricingPlan,
-                      isYearly,
-                    });
-                  }}
+                  loading={isLoading || isCreatingCheckout}
+                  onClick={() => startCheckout()}
                 >
                   Choose Professional
                 </Button>
@@ -183,6 +204,16 @@ function Page() {
                 >
                   Contact us
                 </Button>
+              )}
+              {showGatewayChoices && availableGateways.length > 1 && (
+                <Stack gap={2} p={3} borderWidth="1px" borderRadius="lg">
+                  <Text fontWeight="medium">Choose how you want to pay</Text>
+                  {availableGateways.map((gateway) => (
+                    <Button key={gateway.provider} variant="outline" loading={isCreatingCheckout} onClick={() => startCheckout(gateway.provider)}>
+                      Continue with {gateway.displayName}
+                    </Button>
+                  ))}
+                </Stack>
               )}
             </Stack>
             <List.Root variant="plain" opacity={0.9} mt={6} gap={1}>

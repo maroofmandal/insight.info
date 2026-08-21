@@ -42,7 +42,9 @@ export const authMiddleware = createMiddleware<PublicApiHonoEnv>(async (c, next)
         isActive: false,
         isPastDue: false,
         priceId: undefined,
-        customPlanEvents: null,
+        customPlanEvents: undefined,
+        pricingPlanIndex: undefined,
+        isYearly: false,
       };
   c.set('subscriptionStatus', subscriptionStatus);
 

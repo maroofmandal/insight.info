@@ -33,6 +33,7 @@ export const PricingDialog = ({
   const { data: session } = authClient.useSession();
   const [isYearly, setIsYearly] = useState(currentPlan?.isYearly ?? false);
   const [sliderValue, setSliderValue] = useState(currentPlan?.pricingPlanIndex ?? 0);
+  const [showGatewayChoices, setShowGatewayChoices] = useState(false);
   const [updatePreviewData, setUpdatePreviewData] = useState<{
     immediateCharge: number;
     nextBillingDate: string;
@@ -40,6 +41,10 @@ export const PricingDialog = ({
 
   const { data: managmentUrls, isLoading: isManagementUrlsLoading } = trpc.billing.managmentUrls.useQuery({
     organizationId,
+  });
+  const { data: availableGateways = [] } = trpc.billing.availableGateways.useQuery({ organizationId });
+  const { mutateAsync: createCheckout, isLoading: isCreatingCheckout } = trpc.billing.createCheckout.useMutation({
+    onError: (error) => toaster.error({ title: 'Checkout could not be started', description: error.message }),
   });
   const { mutateAsync: mutateUpdatePreview, isLoading: isUpdatePreviewLoading } =
     trpc.billing.updatePreview.useMutation({
@@ -79,7 +84,22 @@ export const PricingDialog = ({
     isDowngrade = true;
   }
 
-  const onOpenCheckout = async () => {
+  const onOpenCheckout = async (provider?: 'PADDLE' | 'POLAR') => {
+    if (availableGateways.length > 1 && !provider) {
+      setShowGatewayChoices(true);
+      return;
+    }
+    const checkout = await createCheckout({
+      organizationId,
+      tierIndex: sliderValue,
+      billingInterval: isYearly ? 'YEAR' : 'MONTH',
+      provider,
+    });
+    if (checkout.provider === 'POLAR' && checkout.url) {
+      window.location.assign(checkout.url);
+      return;
+    }
+
     if (onCheckoutOpen) {
       returnToBillingSettingsAfterCheckout();
       await onCheckoutOpen();
@@ -144,7 +164,7 @@ export const PricingDialog = ({
                         width="full"
                         colorPalette="purple"
                         disabled={!hasChanged}
-                        loading={isUpdatePreviewLoading}
+                        loading={isUpdatePreviewLoading || isCreatingCheckout}
                         onClick={() => {
                           if (currentPlan) {
                             onUpdatePreview();
@@ -178,6 +198,21 @@ export const PricingDialog = ({
                         Contact us
                       </Button>
                     </Tooltip>
+                  )}
+                  {showGatewayChoices && availableGateways.length > 1 && (
+                    <Stack gap={2} p={3} borderWidth="1px" borderRadius="lg">
+                      <Text fontWeight="medium">Choose how you want to pay</Text>
+                      {availableGateways.map((gateway) => (
+                        <Button
+                          key={gateway.provider}
+                          variant="outline"
+                          loading={isCreatingCheckout}
+                          onClick={() => onOpenCheckout(gateway.provider)}
+                        >
+                          Continue with {gateway.displayName}
+                        </Button>
+                      ))}
+                    </Stack>
                   )}
                   {currentPlan !== undefined && (
                     <>

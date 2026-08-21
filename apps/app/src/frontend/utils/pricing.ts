@@ -8,6 +8,8 @@ interface SubscriptionStatus {
   isPastDue: boolean;
   priceId?: string;
   customPlanEvents?: number | null;
+  pricingPlanIndex?: number;
+  isYearly?: boolean;
   usageCycles?: UsageStats[];
 }
 
@@ -28,10 +30,12 @@ const hasMultipleExceeded = (usageCycles: UsageStats[], eventsIncluded: number):
 };
 
 export const getPricingPlan = (subscriptionStatus?: SubscriptionStatus) => {
-  let isYearly = false;
-  let pricingPlanIndex = 0;
+  let isYearly = subscriptionStatus?.isYearly ?? false;
+  let pricingPlanIndex = subscriptionStatus?.pricingPlanIndex ?? 0;
 
-  const pricingPlan = subscriptionStatus?.isActive
+  const pricingPlan = subscriptionStatus?.isActive && subscriptionStatus.pricingPlanIndex !== undefined
+    ? PRICING_PLANS[subscriptionStatus.pricingPlanIndex]
+    : subscriptionStatus?.isActive
     ? PRICING_PLANS.find((plan, index) => {
         if (plan.monthlyId === subscriptionStatus.priceId) {
           isYearly = false;

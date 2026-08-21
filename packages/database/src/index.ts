@@ -8,6 +8,7 @@ export * from './models/funnel';
 export * from './models/invitation';
 export * from './models/invitation-project-access';
 export * from './models/organization';
+export * from './models/payment-gateway';
 export * from './models/project';
 export * from './models/salt';
 export * from './models/saved-filter';

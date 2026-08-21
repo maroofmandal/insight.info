@@ -34,6 +34,10 @@ const options = {
         type: 'boolean',
         input: false,
       },
+      isPlatformAdmin: {
+        type: 'boolean',
+        input: false,
+      },
     },
   },
   account: {

@@ -7,7 +7,7 @@ import {
   getTimeSpanRangeMax,
   timeSpanRangeMin,
 } from '@vemetric/common/charts/timespans';
-import { dbOrganization, dbProject, OrganizationRole } from 'database';
+import { dbOrganization, dbProject, OrganizationRole, prismaClient } from 'database';
 import { addDays, format, isAfter, isBefore } from 'date-fns';
 import superjson from 'superjson';
 import { z } from 'zod';
@@ -74,6 +74,17 @@ export const loggedInProcedure = sentryProcedure.use(
     });
   }),
 );
+
+export const platformAdminProcedure = loggedInProcedure.use(async (opts) => {
+  const user = await prismaClient.user.findUnique({
+    where: { id: opts.ctx.user.id },
+    select: { isPlatformAdmin: true },
+  });
+  if (!user?.isPlatformAdmin) {
+    throw new TRPCError({ code: 'FORBIDDEN', message: 'Platform administrator access required' });
+  }
+  return opts.next();
+});
 
 export const organizationProcedure = loggedInProcedure
   .input(z.object({ organizationId: z.string() }))
