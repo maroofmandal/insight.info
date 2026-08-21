@@ -31,44 +31,49 @@ export const UserMenu = ({ showThemeSwitch = false, ...props }: Props) => {
 
   return (
     <>
-    <MenuRoot>
-      <MenuTrigger {...props} />
-      <MenuContent minW="140px">
-        {showThemeSwitch && (
-          <>
-            <Flex justify="center" p={2}>
-              <ThemeSwitch />
+      <MenuRoot>
+        <MenuTrigger {...props} />
+        <MenuContent minW="140px">
+          {showThemeSwitch && (
+            <>
+              <Flex justify="center" p={2}>
+                <ThemeSwitch />
+              </Flex>
+              <MenuSeparator my="0" />
+            </>
+          )}
+          <MenuItem value="settings" py={2} onClick={() => openAccountSettings()}>
+            <Flex align="center" gap={2} pos="relative">
+              <TbSettings />
+              <Text>Settings</Text>
             </Flex>
-            <MenuSeparator my="0" />
-          </>
-        )}
-        <MenuItem value="settings" py={2} onClick={() => openAccountSettings()}>
-          <Flex align="center" gap={2} pos="relative">
-            <TbSettings />
-            <Text>Settings</Text>
-          </Flex>
-        </MenuItem>
-        {session?.user.isPlatformAdmin && (
-          <MenuItem value="payment-gateways" py={2} onClick={() => setGatewayAdminOpen(true)}>
-            <Flex align="center" gap={2}><TbCreditCard /><Text>Payment gateways</Text></Flex>
           </MenuItem>
-        )}
-        <MenuItem value="logout" py={2} onClick={handleLogout}>
-          <Flex align="center" gap={2} pos="relative">
-            <Span opacity={isLogoutLoading ? 0 : 1}>
-              <TbLogout />
-            </Span>
-            {isLogoutLoading && (
-              <Center pos="absolute" left="0">
-                <Spinner size="xs" />
-              </Center>
-            )}
-            <Text>Logout</Text>
-          </Flex>
-        </MenuItem>
-      </MenuContent>
-    </MenuRoot>
-    {session?.user.isPlatformAdmin && <PaymentGatewayAdminDialog open={gatewayAdminOpen} onOpenChange={setGatewayAdminOpen} />}
+          {session?.user.isPlatformAdmin && (
+            <MenuItem value="payment-gateways" py={2} onClick={() => setGatewayAdminOpen(true)}>
+              <Flex align="center" gap={2}>
+                <TbCreditCard />
+                <Text>Payment gateways</Text>
+              </Flex>
+            </MenuItem>
+          )}
+          <MenuItem value="logout" py={2} onClick={handleLogout}>
+            <Flex align="center" gap={2} pos="relative">
+              <Span opacity={isLogoutLoading ? 0 : 1}>
+                <TbLogout />
+              </Span>
+              {isLogoutLoading && (
+                <Center pos="absolute" left="0">
+                  <Spinner size="xs" />
+                </Center>
+              )}
+              <Text>Logout</Text>
+            </Flex>
+          </MenuItem>
+        </MenuContent>
+      </MenuRoot>
+      {session?.user.isPlatformAdmin && (
+        <PaymentGatewayAdminDialog open={gatewayAdminOpen} onOpenChange={setGatewayAdminOpen} />
+      )}
     </>
   );
 };

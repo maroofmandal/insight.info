@@ -1,9 +1,24 @@
-import { Button, Dialog, Field, Input, Stack, Switch, Text } from '@chakra-ui/react';
+import { Button, Field, Input, Stack, Switch, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import {
+  DialogBody,
+  DialogCloseTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogRoot,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { toaster } from '@/components/ui/toaster';
 import { trpc } from '@/utils/trpc';
 
-export function PaymentGatewayAdminDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
+export function PaymentGatewayAdminDialog({
+  open,
+  onOpenChange,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+}) {
   const [accessToken, setAccessToken] = useState('');
   const [webhookUrl, setWebhookUrl] = useState(
     typeof window === 'undefined' ? '' : `${window.location.origin}/pg/polar`,
@@ -20,40 +35,62 @@ export function PaymentGatewayAdminDialog({ open, onOpenChange }: { open: boolea
   });
 
   return (
-    <Dialog.Root open={open} onOpenChange={({ open: next }) => onOpenChange(next)}>
-      <Dialog.Backdrop />
-      <Dialog.Positioner>
-        <Dialog.Content maxW="560px">
-          <Dialog.Header><Dialog.Title>Payment gateways</Dialog.Title></Dialog.Header>
-          <Dialog.Body>
-            <Stack gap={5}>
-              <Text color="fg.muted">Credentials are encrypted before they are stored in the database and are never returned to this screen.</Text>
-              <Field.Root>
-                <Field.Label>Polar access token {polar?.hasCredentials ? '(leave blank to keep current token)' : ''}</Field.Label>
-                <Input type="password" autoComplete="new-password" value={accessToken} onChange={(event) => setAccessToken(event.target.value)} />
-              </Field.Root>
-              <Field.Root>
-                <Field.Label>Webhook URL</Field.Label>
-                <Input value={webhookUrl} onChange={(event) => setWebhookUrl(event.target.value)} />
-              </Field.Root>
-              <Switch.Root checked={enabled} onCheckedChange={({ checked }) => setEnabled(Boolean(checked))}>
-                <Switch.HiddenInput />
-                <Switch.Control><Switch.Thumb /></Switch.Control>
-                <Switch.Label>Enable Polar checkout</Switch.Label>
-              </Switch.Root>
-              <Text fontSize="sm" color="fg.muted">Environment: {polar?.environment === 'PRODUCTION' ? 'Production' : 'Sandbox'} · {polar?.products.length ?? 0} synchronized products</Text>
-            </Stack>
-          </Dialog.Body>
-          <Dialog.Footer>
-            <Button variant="ghost" onClick={() => onOpenChange(false)}>Close</Button>
-            <Button colorPalette="purple" loading={isLoading} onClick={async () => {
+    <DialogRoot open={open} onOpenChange={({ open: next }) => onOpenChange(next)}>
+      <DialogContent maxW={{ base: 'calc(100vw - 24px)', md: '560px' }}>
+        <DialogHeader>
+          <DialogTitle>Payment gateways</DialogTitle>
+        </DialogHeader>
+        <DialogBody>
+          <Stack gap={5}>
+            <Text color="fg.muted">
+              Credentials are encrypted before they are stored in the database and are never returned to this screen.
+            </Text>
+            <Field.Root>
+              <Field.Label>
+                Polar access token {polar?.hasCredentials ? '(leave blank to keep current token)' : ''}
+              </Field.Label>
+              <Input
+                type="password"
+                autoComplete="new-password"
+                value={accessToken}
+                onChange={(event) => setAccessToken(event.target.value)}
+              />
+            </Field.Root>
+            <Field.Root>
+              <Field.Label>Webhook URL</Field.Label>
+              <Input value={webhookUrl} onChange={(event) => setWebhookUrl(event.target.value)} />
+            </Field.Root>
+            <Switch.Root checked={enabled} onCheckedChange={({ checked }) => setEnabled(Boolean(checked))}>
+              <Switch.HiddenInput />
+              <Switch.Control>
+                <Switch.Thumb />
+              </Switch.Control>
+              <Switch.Label>Enable Polar checkout</Switch.Label>
+            </Switch.Root>
+            <Text fontSize="sm" color="fg.muted">
+              Environment: {polar?.environment === 'PRODUCTION' ? 'Production' : 'Sandbox'} ·{' '}
+              {polar?.products.length ?? 0} synchronized products
+            </Text>
+          </Stack>
+        </DialogBody>
+        <DialogFooter>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            Close
+          </Button>
+          <Button
+            colorPalette="purple"
+            loading={isLoading}
+            onClick={async () => {
               await save({ accessToken: accessToken || undefined, enabled, webhookUrl });
               setAccessToken('');
               await refetch();
-            }}>Save and sync</Button>
-          </Dialog.Footer>
-        </Dialog.Content>
-      </Dialog.Positioner>
-    </Dialog.Root>
+            }}
+          >
+            Save and sync
+          </Button>
+        </DialogFooter>
+        <DialogCloseTrigger />
+      </DialogContent>
+    </DialogRoot>
   );
 }
