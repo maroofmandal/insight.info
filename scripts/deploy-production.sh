@@ -47,4 +47,4 @@ echo "Insight.info production services are healthy."
 
 echo "Cleaning up dangling images and build cache..."
 docker image prune -f || true
-docker builder prune -f --keep-storage 2GB 2>/dev/null || true
+docker builder prune -f --reserved-space 2GB 2>/dev/null || docker builder prune -f 2>/dev/null || true
