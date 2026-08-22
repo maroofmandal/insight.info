@@ -9,7 +9,7 @@ RUN bun turbo prune @vemetric/bullboard --docker --out-dir out
 
 FROM base AS install
 COPY --from=pruner /usr/src/app/out/json/ .
-RUN bun install --ignore-scripts --frozen-lockfile
+RUN bun install --ignore-scripts
 
 FROM install AS prisma
 COPY --from=pruner /usr/src/app/out/full/ .
@@ -17,7 +17,7 @@ RUN bun run --cwd packages/database db:generate
 
 FROM base AS prod-install
 COPY --from=pruner /usr/src/app/out/json/ .
-RUN bun install --production --ignore-scripts --frozen-lockfile
+RUN bun install --production --ignore-scripts
 
 FROM base AS release
 COPY --from=pruner /usr/src/app/out/full/ ./

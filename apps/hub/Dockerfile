@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 FROM base AS build
 COPY . .
-RUN bun install --ignore-scripts --frozen-lockfile
+RUN bun install --ignore-scripts
 RUN bun run --cwd packages/database db:generate
 
 FROM base AS release
