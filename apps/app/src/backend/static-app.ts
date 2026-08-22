@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { serveStatic } from 'hono/bun';
-import { isMarketingPath } from './marketing-routes';
+import { isMarketingPath, isSiteAssetPath } from './marketing-routes';
 import { isNoCachePath } from './route-config';
 
 const applyIndexHtmlCacheHeaders = (c: { header: (name: string, value: string) => void }) => {
@@ -68,8 +68,7 @@ export function createStaticApp() {
     '*',
     serveStatic({
       root: siteDist,
-      rewriteRequestPath: (path) =>
-        path.startsWith('/_astro/') || siteAssets.has(path) ? path : '/__not-a-site-asset__',
+      rewriteRequestPath: (path) => (isSiteAssetPath(path, siteAssets) ? path : '/__not-a-site-asset__'),
       onFound: (_path, c) => setCacheHeaders(new URL(c.req.url).pathname, c),
     }),
   );

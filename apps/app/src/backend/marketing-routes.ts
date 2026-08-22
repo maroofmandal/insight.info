@@ -16,3 +16,6 @@ const MARKETING_PREFIXES = ['/blog/', '/docs/'];
 
 export const isMarketingPath = (pathname: string): boolean =>
   MARKETING_ROUTES.has(pathname) || MARKETING_PREFIXES.some((prefix) => pathname.startsWith(prefix));
+
+export const isSiteAssetPath = (path: string, assets: Set<string>): boolean =>
+  path.startsWith('/_astro/') || path.startsWith('/images/') || assets.has(path);

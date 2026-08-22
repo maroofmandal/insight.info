@@ -4,7 +4,7 @@ test.describe('Insight.info marketing site', () => {
   test('navigation, product controls, pricing and FAQ work', async ({ page }, testInfo) => {
     await page.goto('/');
     await expect(page).toHaveTitle(/Insight\.info/);
-    await expect(page.getByRole('heading', { name: 'See what people do. Know what to build.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /How do your users find you\?/ })).toBeVisible();
 
     if (testInfo.project.name === 'mobile-chromium') {
       await page.getByRole('button', { name: 'Toggle menu' }).click();
@@ -13,25 +13,48 @@ test.describe('Insight.info marketing site', () => {
       ).toBeVisible();
     }
 
+    const hero = page.locator('.hero');
+    await expect(hero.getByRole('link', { name: /Start tracking/ })).toHaveAttribute('href', '/signup');
+    await expect(hero.getByRole('link', { name: /View Live Demo/ })).toHaveAttribute(
+      'href',
+      '/insight.info?t=24hrs',
+    );
+
+    const heroEvents = hero.locator('[data-hero-event]');
+    await heroEvents.nth(0).click();
+    await expect(heroEvents.nth(0)).toHaveAttribute('aria-expanded', 'true');
+    await heroEvents.nth(1).click();
+    await expect(heroEvents.nth(0)).toHaveAttribute('aria-expanded', 'false');
+    await expect(heroEvents.nth(1)).toHaveAttribute('aria-expanded', 'true');
+
     await page.getByRole('tab', { name: 'Funnels' }).click();
-    await expect(page.getByText('Activation funnel')).toBeVisible();
+    const funnelPanel = page.locator('[data-product-panel="funnels"]');
+    await expect(funnelPanel).toBeVisible();
+    await expect(funnelPanel).toHaveAttribute('src', /hero-funnels\.webp\?v=insight-/);
+    await expect.poll(() => funnelPanel.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBe(2424);
+    await expect(page.locator('[data-product-panel="dashboard"]')).toBeHidden();
+    expect(
+      await page.locator('.product-screen').evaluate((screen) => getComputedStyle(screen, '::after').content),
+    ).toBe('none');
 
     await page.getByRole('tab', { name: 'React' }).click();
-    await expect(page.locator('[data-code="React"]')).toContainText('VemetricProvider');
+    await expect(page.locator('[data-code="React"]')).toContainText('VemetricScript');
 
     const range = page.getByRole('slider', { name: 'Monthly event tier' });
     await range.fill('2');
-    await expect(page.locator('[data-event-label]')).toHaveText('250,000');
+    await expect(page.locator('[data-event-label]')).toHaveText('25,000,000');
     await expect(page.locator('[data-price]')).toHaveText('25');
+
+    await page.getByRole('button', { name: /Yearly/ }).click();
+    await expect(page.locator('[data-price]')).toHaveText('250');
+    await expect(page.locator('[data-price-period]')).toHaveText('/year');
 
     const faq = page.getByText('Can I start for free?');
     await faq.click();
     await expect(faq.locator('..').getByText(/no credit card required/i)).toBeVisible();
 
-    await expect(page.locator('.hero').getByRole('link', { name: 'Start for free' })).toHaveAttribute(
-      'href',
-      '/signup',
-    );
+    await expect(hero.locator('img[src*="/images/reference/dominik.png"]')).toBeVisible();
+    await expect(page.locator('img[src*="vemetric.com"]')).toHaveCount(0);
   });
 
   test('documentation search and legal draft state are explicit', async ({ page }) => {
