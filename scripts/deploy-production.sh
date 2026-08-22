@@ -44,3 +44,7 @@ curl --fail --silent --show-error --retry 12 --retry-delay 5 http://127.0.0.1:30
 curl --fail --silent --show-error --retry 12 --retry-delay 5 http://127.0.0.1:4004/up >/dev/null
 
 echo "Insight.info production services are healthy."
+
+echo "Cleaning up dangling images and build cache..."
+docker image prune -f || true
+docker builder prune -f --keep-storage 2GB 2>/dev/null || true

@@ -5,5 +5,10 @@ npm-debug.log
 .git
 .turbo
 dist
+**/dist
 coverage
 .DS_Store
+.playwright-mcp
+.vscode
+plans
+apps/e2e
