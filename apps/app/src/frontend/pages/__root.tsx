@@ -5,8 +5,6 @@ import { zodValidator } from '@tanstack/zod-adapter';
 import { vemetric } from '@vemetric/react';
 import { useEffect, useRef } from 'react';
 import { z } from 'zod';
-import { CrispChat } from '@/components/crisp-chat';
-import { CrispScript } from '@/components/crisp-script';
 import { useColorMode } from '@/components/ui/color-mode';
 import { toaster } from '@/components/ui/toaster';
 import { authClient } from '@/utils/auth';
@@ -151,8 +149,6 @@ function RootLayout() {
   return (
     <>
       <Outlet />
-      <CrispScript />
-      {!location.pathname.startsWith('/public/') && <CrispChat />}
     </>
   );
 }

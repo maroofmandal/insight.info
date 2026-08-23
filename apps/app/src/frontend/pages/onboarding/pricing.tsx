@@ -1,6 +1,7 @@
 import type { CardRootProps } from '@chakra-ui/react';
 import { List, Box, Flex, Card, SimpleGrid, Button, Stack, Span, HStack, Text } from '@chakra-ui/react';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { BRAND } from '@vemetric/common/brand';
 import { useState } from 'react';
 import { TbChevronRight } from 'react-icons/tb';
 import { z } from 'zod';
@@ -9,7 +10,6 @@ import { PricingSlider } from '@/components/pages/settings/organization/billing/
 import { SplashScreen } from '@/components/splash-screen';
 import { toaster } from '@/components/ui/toaster';
 import { Tooltip } from '@/components/ui/tooltip';
-import { useOpenCrispChat } from '@/stores/crisp-chat-store';
 import { authClient } from '@/utils/auth';
 import { requireOnboardingPricing } from '@/utils/auth-guards';
 import { openPaddleCheckout } from '@/utils/paddle';
@@ -34,7 +34,6 @@ export const Route = createFileRoute('/onboarding/pricing')({
 function Page() {
   const { data: session, refetch: refetchAuth } = authClient.useSession();
   const { orgId } = Route.useSearch();
-  const openCrispChat = useOpenCrispChat();
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -198,9 +197,7 @@ function Page() {
                   width="full"
                   colorPalette="purple"
                   textDecor="none"
-                  onClick={() => {
-                    openCrispChat();
-                  }}
+                  onClick={() => window.location.assign(`mailto:${BRAND.contactEmail}`)}
                 >
                   Contact us
                 </Button>
@@ -209,7 +206,12 @@ function Page() {
                 <Stack gap={2} p={3} borderWidth="1px" borderRadius="lg">
                   <Text fontWeight="medium">Choose how you want to pay</Text>
                   {availableGateways.map((gateway) => (
-                    <Button key={gateway.provider} variant="outline" loading={isCreatingCheckout} onClick={() => startCheckout(gateway.provider)}>
+                    <Button
+                      key={gateway.provider}
+                      variant="outline"
+                      loading={isCreatingCheckout}
+                      onClick={() => startCheckout(gateway.provider)}
+                    >
                       Continue with {gateway.displayName}
                     </Button>
                   ))}

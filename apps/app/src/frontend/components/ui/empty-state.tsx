@@ -1,7 +1,7 @@
 import { EmptyState as ChakraEmptyState, Icon, VStack } from '@chakra-ui/react';
 import * as React from 'react';
 import { TbAlertTriangle } from 'react-icons/tb';
-import { CrispLink } from '../crisp-link';
+import { ContactLink } from '../contact-link';
 
 export interface EmptyStateProps extends ChakraEmptyState.RootProps {
   title: string;
@@ -43,7 +43,7 @@ export const ErrorState = ({ title, description }: ErrorStateProps) => {
       description={
         description || (
           <>
-            Please <CrispLink>reach out</CrispLink> if the problem persists.
+            Please <ContactLink>reach out</ContactLink> if the problem persists.
           </>
         )
       }

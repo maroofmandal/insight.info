@@ -1,5 +1,5 @@
 import { Center, Link, Spinner, Text } from '@chakra-ui/react';
-import { CrispLink } from './crisp-link';
+import { ContactLink } from './contact-link';
 import { ErrorState } from './ui/empty-state';
 
 const isModuleNotFoundError = (error: any): boolean =>
@@ -34,7 +34,7 @@ export const errorRoute = ({ error }: { error: any }) => {
               </Link>
             </Text>
             <Text mb={6}>
-              Please <CrispLink>reach out</CrispLink> if this error persists.
+              Please <ContactLink>reach out</ContactLink> if this error persists.
             </Text>
             {error?.message && <Text opacity={0.7}>Error Message: {error?.message}</Text>}
           </>

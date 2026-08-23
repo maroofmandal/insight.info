@@ -1,10 +1,10 @@
 import { Dialog, Flex, Stack, Text, Button, CloseButton } from '@chakra-ui/react';
+import { BRAND } from '@vemetric/common/brand';
 import { useState } from 'react';
 import { TbBolt } from 'react-icons/tb';
 import { CardIcon } from '@/components/card-icon';
 import { toaster } from '@/components/ui/toaster';
 import { Tooltip } from '@/components/ui/tooltip';
-import { useOpenCrispChat } from '@/stores/crisp-chat-store';
 import { authClient } from '@/utils/auth';
 import { openPaddleCheckout, returnToBillingSettingsAfterCheckout } from '@/utils/paddle';
 import { PRICING_PLANS } from '@/utils/pricing';
@@ -29,7 +29,6 @@ export const PricingDialog = ({
   currentPlan,
   organizationId,
 }: PricingDialogProps) => {
-  const openCrispChat = useOpenCrispChat();
   const { data: session } = authClient.useSession();
   const [isYearly, setIsYearly] = useState(currentPlan?.isYearly ?? false);
   const [sliderValue, setSliderValue] = useState(currentPlan?.pricingPlanIndex ?? 0);
@@ -192,7 +191,7 @@ export const PricingDialog = ({
                         textDecor="none"
                         onClick={() => {
                           onOpenChange({ open: false });
-                          openCrispChat();
+                          window.location.assign(`mailto:${BRAND.contactEmail}`);
                         }}
                       >
                         Contact us

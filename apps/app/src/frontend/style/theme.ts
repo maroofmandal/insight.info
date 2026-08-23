@@ -49,12 +49,6 @@ export const vemetricTheme = createSystem(defaultConfig, {
     '.simplebar-scrollbar::before': {
       bg: 'gray.600!important',
     },
-    '#crisp-chatbox > div > a': {
-      display: 'none!important',
-    },
-    '#crisp-chatbox > div > div[role="button"]': {
-      display: 'none!important',
-    },
     '.vault-overlay': {
       position: 'fixed',
       inset: 0,

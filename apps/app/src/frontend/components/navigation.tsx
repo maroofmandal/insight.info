@@ -2,6 +2,7 @@ import type { BoxProps, CardRootProps, FlexProps } from '@chakra-ui/react';
 import { Box, Card, Flex, HStack, Icon, IconButton, Spinner, Text } from '@chakra-ui/react';
 import type { LinkProps } from '@tanstack/react-router';
 import { Link, useMatches, useNavigate, useParams } from '@tanstack/react-router';
+import { BRAND } from '@vemetric/common/brand';
 import type { ElementType } from 'react';
 import { useState } from 'react';
 import {
@@ -16,7 +17,6 @@ import {
   TbSettings,
 } from 'react-icons/tb';
 import { useAccountSettingsDialog } from '@/hooks/use-account-settings-dialog';
-import { useOpenCrispChat } from '@/stores/crisp-chat-store';
 import { authClient, useLogout } from '@/utils/auth';
 import { AccountAvatar } from './account-avatar';
 import { EventLimitBanner } from './event-limit-banner';
@@ -71,8 +71,6 @@ export const Navigation = (props: CardRootProps) => {
   const { user } = session ?? {};
   const { logout } = useLogout();
   const routeId = matches[matches.length - 1].routeId;
-
-  const openCrispChat = useOpenCrispChat();
 
   const [isLogoutLoading, setIsLogoutLoading] = useState(false);
   const params = useParams({ strict: false });
@@ -143,7 +141,7 @@ export const Navigation = (props: CardRootProps) => {
         icon={TbMessageCircleQuestion}
         as="button"
         onClick={() => {
-          openCrispChat();
+          window.location.assign(`mailto:${BRAND.contactEmail}`);
         }}
         hideFrom="lg"
       >
