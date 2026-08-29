@@ -27,7 +27,7 @@ import { TimespanSelect } from '@/components/timespan-select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ProjectProvider } from '@/contexts/project-context';
 import { chartTogglesSchema } from '@/hooks/use-chart-toggles';
-import { getFaviconUrl } from '@/utils/favicon';
+import { getFaviconUrl, getWebsiteFaviconUrl } from '@/utils/favicon';
 import { timeSpanSearchMiddleware, timespanSearchSchema } from '@/utils/timespans';
 import { useTrendsData } from '@/utils/trends';
 import { trpc } from '@/utils/trpc';
@@ -156,7 +156,8 @@ function Page() {
                   >
                     <HStack gap={{ base: 1.5, md: 2 }} pos="relative">
                       <LoadingImage
-                        src={getFaviconUrl(domain, 256)}
+                        src={getWebsiteFaviconUrl(domain)}
+                        fallbackSrc={getFaviconUrl(domain, 256)}
                         boxSize={{ base: 6, md: 8 }}
                         overflow="hidden"
                         rounded="md"

@@ -1,24 +1,22 @@
 import type { ImageProps } from '@chakra-ui/react';
 import { Box, Center, Image, Skeleton, Icon } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TbWorldQuestion } from 'react-icons/tb';
 
-interface Props extends ImageProps {}
+interface Props extends ImageProps {
+  fallbackSrc?: string;
+}
 
-export const LoadingImage = (props: Props) => {
+export const LoadingImage = ({ fallbackSrc, src, onError, onLoad, ...props }: Props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [currentSrc, setCurrentSrc] = useState(src);
 
-  const skipFirst = useRef(true);
   useEffect(() => {
-    if (skipFirst.current) {
-      skipFirst.current = false;
-      return;
-    }
-
+    setCurrentSrc(src);
     setError(false);
     setLoading(true);
-  }, [props.src]);
+  }, [src]);
 
   return (
     <Box position="relative" flexShrink="0">
@@ -29,9 +27,22 @@ export const LoadingImage = (props: Props) => {
       )}
       <Image
         {...props}
+        src={currentSrc}
         opacity={loading || error ? 0 : 1}
-        onLoad={() => setLoading(false)}
-        onError={() => setError(true)}
+        onLoad={(event) => {
+          setLoading(false);
+          onLoad?.(event);
+        }}
+        onError={(event) => {
+          if (fallbackSrc && currentSrc !== fallbackSrc) {
+            setCurrentSrc(fallbackSrc);
+            setError(false);
+            setLoading(true);
+          } else {
+            setError(true);
+          }
+          onError?.(event);
+        }}
       />
     </Box>
   );

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getFaviconUrl } from './favicon';
+import { getFaviconUrl, getWebsiteFaviconUrl } from './favicon';
 
 describe('getFaviconUrl', () => {
   it('should handle URLs with https protocol', () => {
@@ -30,5 +30,11 @@ describe('getFaviconUrl', () => {
     const url = 'not-a-url';
     const expected = 'https://favicon.vemetric.com/not-a-url?size=64';
     expect(getFaviconUrl(url)).toBe(expected);
+  });
+
+  it('builds a cache-busted URL for the website favicon', () => {
+    expect(getWebsiteFaviconUrl('https://example.com/path', 'current')).toBe(
+      'https://example.com/favicon.ico?insight-refresh=current',
+    );
   });
 });
